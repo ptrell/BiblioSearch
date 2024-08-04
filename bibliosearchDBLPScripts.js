@@ -101,13 +101,13 @@ function initialize(){
 		/*
 	let cit = new Cite(bib);
 	let ref = cit.format('data', {format: 'object'});
-	console.log(ref);
+	(ref);
 	let citcit = new Cite(ref);
 	let refref = cit.format('data', {format: 'bibtex'});
-	console.log(refref);
+	(refref);
 	alert(refref);*/
 	/*let cit = bibtexParse.toJSON(bib);
-	console.log(cit);*/
+	(cit);*/
 	
 
 }
@@ -119,7 +119,7 @@ async function convertXMLToReference(obj){
 		let keyList = Array.from(obj.getElementsByTagName("key"));
 		if(keyList.length>0){
 			let obtained = await searchDBLP(generateNewRequest(recPrefixDBLP, keyList[0].innerHTML, "bib")).then((e) => {return e;});
-			//console.log(obtained);
+			//(obtained);
 			/*let refCite = new Cite(obtained);
 			let ref = refCite.format('data', {format: 'object'});
 			return ref;*/
@@ -224,7 +224,7 @@ const searchDBLP = (requestURL) => {
 	return fetch(requestURL)
 	  .then(response => {
 	    if (!response.ok) {
-	    	console.log(response.status);
+	    	(response.status);
 	    	if (response.status === 404) throw new Error('The requested resource could not be found: \n' + requestURL);
 	    	else if (response.status === 500) throw new Error('An Internal server error ocurred during your search.');
 	    	else if (response.status === 429) throw new Error('Too many requests. Try again later.')
@@ -372,7 +372,7 @@ async function obtainResultsDBLP(searchMethod, searchTerm, desiredResults){
 		populateResultsDBLP(1);
 	}
     catch(error){
-    	console.log(error);
+    	//console.log(error);
     	currentSearchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
     	usableResults=[];
     	createResultErrorMessage("No results were found for the current search terms.")
@@ -403,7 +403,7 @@ function populateResultsDBLP(pageNumber){
 			//console.log(filteredResults[i]);
 			//using document fragments because adding elements to them and then adding the fragment to the father element as a child is faster than adding all of them into the live page one by one
 			//we dont use innnerHTML because its slow and may cause security issues
-			console.log(filteredResults[i]);
+			//console.log(filteredResults[i]);
 			frag.innerHTML+=resultCreator(filteredResults[i]);
 		}
 			
@@ -957,13 +957,13 @@ function selectResult(refData){
 	//try{
 		//let refData = getJQData(result, "result");
 		//let ref = convertXMLToReference(refData);
-		console.log(refData);
+		//console.log(refData);
 		let selectedListItem = createSelectedItem(refData);
-		console.log(selectedListItem);
+		//console.log(selectedListItem);
 		let liElement = $.parseHTML(selectedListItem);
-		console.log(liElement);
+		//console.log(liElement);
 		attachJQData(liElement[0], "result", refData)
-		console.log("test");
+		//console.log("test");
 		document.getElementById("results__selected-list").appendChild(liElement[0]);
 		saveSelectedResults();
 		JsLoadingOverlay.hide();
@@ -1013,18 +1013,18 @@ async function generateCustomXML(element, results){
 async function obtainSelectedResultsDBLP(results, format){
 	try{
 	let dataToDownload = "";
-	console.log(results);
+	//console.log(results);
 	for (let result of results){
 	//results.forEach(async function(result){
 		let refData = getJQData(result, "result");
-		console.log(refData);
+		//console.log(refData);
 		if(isXML(refData)){
 			let key;
 			let keyList = Array.from(refData.getElementsByTagName("key"));
-			console.log(keyList.length);
+			//console.log(keyList.length);
 			if(!(keyList.length>0)){
 				keyList = Array.from(refData.querySelectorAll('[key]'));
-				console.log(keyList.length);
+				//console.log(keyList.length);
 				if(keyList.length>0){
 					key = keyList[0].getAttribute("key");
 				}
@@ -1036,9 +1036,9 @@ async function obtainSelectedResultsDBLP(results, format){
 			else{
 				key = keyList[0].innerHTML;
 			}
-			console.log
+			//console.log
 			if(key!="" || key!=undefined){
-				console.log(generateNewRequest(recPrefixDBLP, key, "", format));
+				//console.log(generateNewRequest(recPrefixDBLP, key, "", format));
 				let obtained = await searchDBLP(generateNewRequest(recPrefixDBLP, key, "", format)).then((e) => {return e;});
 				//console.log(obtained);
 				if(obtained==undefined){
