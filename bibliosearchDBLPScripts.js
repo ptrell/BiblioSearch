@@ -307,7 +307,7 @@ async function obtainResultsDBLP(searchMethod, searchTerm, desiredResults){
 			data = Array.from(elements.querySelectorAll("article, proceedings, inproceedings, book"));
 			let liElems = elements.getElementsByTagName("li");
 			let urlValue;
-			if(searchMethod == "db/" && term.includes("/conf/") && liElems.length>0){
+			if(searchMethod == "db/" && searchTerm.includes("/conf/") && liElems.length>0){
 				for (let liElem of liElems){
 					//results.forEach(async function(result){
 						let refList = liElem.getElementsByTagName("ref");
