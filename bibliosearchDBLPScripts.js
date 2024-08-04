@@ -1146,19 +1146,19 @@ async function downloadResults(dataToDownload, format){
 
 function loadBibContents(contents){
 	let added = false;
-	//try{
+	try{
 	let refs = bibtexParse.toJSON(contents);
-	console.log(refs);
+	//console.log(refs);
 	refs.forEach((item) => {
 		selectResult(item);
 		added = true;
 	});
-	/*}
+	}
 	catch(error){
 	}
 	finally{
 		if(added){disableReferenceFormats(true, "bib");}
-	}*/
+	}
 }
 
 function disableReferenceFormats(disable, format){
