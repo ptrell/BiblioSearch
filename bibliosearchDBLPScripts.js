@@ -253,7 +253,7 @@ const searchDBLP = (requestURL) => {
 		  //fail first, errors should always be thrown as soon as they happen
 		  //console.log(isNetworkError(error));
 		  //alert('Error: ' + error.message);
-		  if (isNetworkError(error)){alert('Error: Failed to establish connection to the server. This may be due to network or other issues, or you may have made too many requests. If the issue persists, check your internet connection, lower your desired number of results under the Advanced Search menu, and try again later.')}
+		  if (isNetworkError(error)){alert('Error: Failed to establish connection to the server.\nThis may be due to network problems or other issues, or you may have made too many requests.\nIf the issue persists, try checking your internet connection, lowering your desired number of results under the Advanced Search menu, and trying again later.')}
 		  //else {alert('Error: ' + error.message);}
 	  });
 	//if reset is false, the user is currently scrolling down the results list, and thus the page should not be reloaded
@@ -839,7 +839,11 @@ function filterResultsDBLP(){
 	else{
 		let filteredResults = [];
 	
-	
+		if(fetchedResults==null){
+			createResultErrorMessage("No results were found for the specified filters. Please try again with different filtering options or make your DBLP search more specific.");
+			JsLoadingOverlay.hide();
+			return;
+		}
 		fetchedResults.forEach(element => {
 			let validSoFar = true;
 			
@@ -1201,10 +1205,12 @@ $(document).ready(function(){
 	});
   
 	$('#search-form').submit(function(){
+		JsLoadingOverlay.show();
 		let term = document.getElementById(searchBarTextInputId).value
 		let method = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
 		if(term != "" && idSearchMethods.includes(method) && !(/..*[/].*./).test(term.replace(/\s/g,''))){
 			alert("The search term does not resemble a publisher ID. Please, double check the ID you're looking for or use a different search method.");
+			JsLoadingOverlay.hide();
 			return false;
 		}
 	});
