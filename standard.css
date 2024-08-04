@@ -25,7 +25,7 @@ header {
 	height: 25vh;
 	text-align: center;
 	color: white;
-	background-color: #631878;
+	background-color: #361877;
 	align-items: center;
 	width: 100%;     
     z-index: 101;     /* put the header in fronnt of the left menu bar */
@@ -38,16 +38,16 @@ li {
 }
 
 table {
-	border: 2px solid #631878;
+	border: 2px solid #361877;
 }
 
 th {
-	background-color: #631878;
+	background-color: #361877;
 	color: white;
 }
 
 /*#results__result-list {
-	border-right: 2px solid #631878;
+	border-right: 2px solid #361877;
 }*/
 
 footer {
@@ -188,16 +188,16 @@ footer {
 }
 
 .selected-page button {
-	background-color: #631878;
+	background-color: #361877;
 	color: white;
 }
 
 .left-side-td{
-	border-left: 2px solid #631878;
+	border-left: 2px solid #361877;
 }
 
 .right-side-td{
-	border-left: 2px solid #631878;
+	border-left: 2px solid #361877;
 }
 
 .testdiv{
@@ -227,7 +227,7 @@ footer {
   	font-style: normal;
 }
 
-#touch {position: absolute; opacity: 0; max-height: 0px; width: 0px; background-color: #631878;}    
+#touch {position: absolute; opacity: 0; max-height: 0px; width: 0px; background-color: #361877;}    
 
 #touch:checked + #advanced-search__list {max-height:1000px; transition: max-height .4s ease-in;}
 
@@ -263,7 +263,7 @@ footer {
 }
 
 #search-bar__search-button {
-	background-color: #631878;
+	background-color: #361877;
 }
 
 #advanced-search__elements {
@@ -272,10 +272,10 @@ footer {
 	margin: auto;
   	width: 33%;
   	min-width: 400px;
-  	border: 2px solid #631878;
+  	border: 2px solid #361877;
 }
 #advanced-search__button {
-	background-color: #631878;
+	background-color: #361877;
 	width: 100vh;
 	height: 100%;
 	display: flex;
@@ -291,7 +291,7 @@ footer {
   	font-variant : small-caps;
   	cursor : pointer;
   	display: block;
-	background-color: #631878;
+	background-color: #361877;
   	justify-content: center;
  	align-items: center;
  	width: 100%;
@@ -389,7 +389,7 @@ text-align: center;
 	font-size: 12px;
 	padding: 0px;
 	margin: 10px;
-	background-color: #631878;
+	background-color: #361877;
 	color: white;
 	display: inline-block;
 }
@@ -407,7 +407,7 @@ text-align: center;
 	font-size: 12px;
 	margin: auto;
 	padding: auto;
-	color: #631878;
+	color: #361877;
 }
 
 #results__selected-list {
