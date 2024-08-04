@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>BiblioSearch - DBLP Search</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> 
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="bibtexParse.js"></script>
+	<script src="is-network-error.js"></script>
+	<script src="js-loading-overlay.min.js"></script>
+</head>
+
+<body>
+
+	<header>
+	<div id="header-elements">
+		<a id="logo">BiblioSearch</a>
+		<h2 id="tag-line">Manage your bibliography with ease</h2>
+	</div>
+	</header>
+	
+	<section id ="content">
+	
+	<form id="search-form">
+	
+	<div id="search-elements">
+		<h1 id="title">DBLP Search</h1>
+	
+		<div class="input-group" id="search-bar">
+		
+			<select class="form-select" id="search-bar__method-select" name="method" aria-label="Search Method">
+				<optgroup label="Publication Search Methods">
+					<option value="search/publ/api" selected>Publications</option>
+					<option value="pid/">Pub. by Author PID</option>
+					<option value="db/">Pub. by Venue ID</option>
+				</optgroup>
+				<optgroup label="Publisher Search Methods">
+					<option value="search/author/api">Authors</option>
+					<option value="search/venue/api">Venues</option>
+				</optgroup>
+			</select>
+			
+			<div id="text-input__div" class="form-outline" data-mdb-input-init>
+				<input type="search" id="search-bar__text-input" name="search" id="form1" class="form-control" />
+			</div>
+			
+			<button type="submit" id="search-bar__search-button" class="btn btn-primary" value="" data-mdb-ripple-init>
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+	  				<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+				</svg>
+			</button>
+		
+		</div>
+	</div>
+		
+
+	<div id="advanced-search__elements">
+
+	  <label for="touch" id="advanced-search__button">
+	  	<span id="advanced-search__span">
+	  		Advanced Search 
+	  		<svg id="advanced-search__dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-triangle-fill" viewBox="0 0 16 16">
+	  			<path fill-rule="evenodd" d="M7.022 1.566a1.13 1.13 0 0 1 1.96 0l6.857 11.667c.457.778-.092 1.767-.98 1.767H1.144c-.889 0-1.437-.99-.98-1.767z"/>
+			</svg>
+		</span>
+	  </label>       
+	          
+	  <input type="checkbox" id="touch">
+	
+	  <ul id="advanced-search__list" class="basic-list">
+	  
+	  	<!--  <li id="adv-author"><label class="advanced-search__list__label">Author: </label> <input type="text" id="author-input" class="advanced-input"></li>
+	  	<li id="adv-venue"><label class="advanced-search__list__label">Venue: </label> <input type="text" id="venue-input" class="advanced-input"> </li> 
+	    <li><label class="advanced-search__list__label">Year of Publication: </label> From <input type="number" min="1900" id="min-year"> to <input type="number" min="1900" id="max-year"></li> 
+	    <li><label class="advanced-search__list__label">Type: </label>
+	    	<select class="form-select" id="type-input" aria-label="Search Method">
+				<option value="0" selected value="">Type</option>
+				<option value="1">Type</option>
+				<option value="2">Type</option>
+			</select>
+	    </li>-->
+	    
+	    <li><div><label class="advanced-search__list__label">Results: </label>
+	    
+	    	<select class="form-select" id="results-number-input" name="number" aria-label="Search Method">
+				<option value="50">50</option>
+				<option value="100" selected>100</option>
+				<option value="200">200</option>
+				<option value="500">500</option>
+				<option value="1000">1000</option>
+				<option value="5000">5000</option>
+			</select>
+	    </div></li>
+	    
+	    <li>
+	    <label class="advanced-search__list__label">Tips: </label>
+		    <ul id="advanced-search__list__tips-div">
+		    	<li>Append "$" at the end of a word to search for a specific term. <p> Example: Performance$ </li>
+		    	<li>Connect two terms with a "||" separator to search for results containing one or the other. <p> Example: Process||Procedure</li>
+		    	<li>Use the "Author" and "Venue" search methods to find a publisher's ID.</li>
+		    	<li>Use a publisher's ID in a "Pub. by" search method to get all publications by an author or venue.</li>
+		    	<li>If you wish to obtain results of a specific Type or from a specific time frame, use the "Filters" menu at the bottom of the Results list.</li>
+		    </ul>
+	    </li>
+	  </ul>
+	
+	</div> 
+	
+	</form>
+	
+	<table id="results-elements">
+	  <tr>
+	    <th id="results__result-column">Results</th>
+	    <th id="results__selected-column">Selected</th>
+	  </tr>
+	  
+	  <tr>
+	    <td>
+	    	<ul id="results__result-list" class="basic-list">
+	    	
+	    		<li class="result-item">
+		    		<span class="result-item__options">
+					</span>
+					
+					<span class="result-item__title-span">
+						<a class="result-item__title" href="https://example.com" target="_blank"></a>
+					</span>
+					
+					<span class="result-item__options--right">
+					</span>
+					
+	    		</li>
+	    		<li>
+	    		
+	    		</li>
+	    	
+	    	</ul>
+	    </td>
+	    
+	    <td id="results__selected-td" class="right-side-td">
+	    	<ul id="results__selected-list" class="basic-list">
+	    	</ul>
+	    
+	    </td>
+	  </tr>
+	  <tr>
+	  	<td id="results__options-row" class="result-item">
+		  	<div id="result-filters" class="result-item__options btn-group dropleft">
+			  <button type="button" id="result-filters__button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    Filters
+			  </button>
+			  <div class="dropdown-menu">
+			    <form class="px-4 py-3">
+			    	<div class="form-group">
+				      <label for="title-filter">Title: </label>
+				      <input type="text" id="title-filter" class="advanced-input">
+				    </div>
+				    <div class="form-group">
+				      <label for="author-filter">Author: </label>
+				      <input type="text" id="author-filter" class="advanced-input">
+				    </div>
+				    <div class="form-group">
+				      <label for="venue-filter">Venue: </label>
+				      <input type="text" id="venue-filter" class="advanced-input">
+				    </div>
+				    <div class="form-group">
+				      <label for="min-year-filter">Min Year: </label>
+				      <input type="number" min="1900" id="min-year-filter">
+				    </div>
+				    <div class="form-group">
+				      <label for="max-year-filter">Max Year: </label>
+				      <input type="number" min="1900" id="max-year-filter">
+				    </div>
+				    <div class="form-group">
+				      <label for="type-filter">Type: </label>
+				      	<select class="form-select" id="type-filter" aria-label="Search Method">
+							<option value="" selected value="">-</option>
+							<option value="Books and Theses">Books and Theses</option>
+							<option value="Journal Articles">Journal Articles</option>
+							<option value="Conference and Workshop Papers">Conference and Workshop Papers</option>
+							<option value="Parts in Books or Collections">Parts in Books or Collections</option>
+							<option value="Editorship">Editorship</option>
+							<option value="Reference Works">Reference Works</option>
+							<option value="Data and Artifacts">Data and Artifacts</option>
+							<option value="Informal and Other Publications">Informal and Other Publications</option>
+						</select>
+				    </div>
+				    <div class="form-group">
+				      <label for="type-filter">Results per page: </label>
+				      	<select class="form-select" id="results-per-page" aria-label="Results per Page">
+							<option value="10" selected>10</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+						</select>
+				    </div>
+				    <br>
+				    <button type="button" id="result-filters__filter-button" class="btn btn-primary">Filter Results</button>
+				  </form>
+			  </div>
+		  	</div>
+		  	<div id="result-pagination" class="result-item__title-span">
+				  <ul id="pagination-list" class="pagination pagination-sm justify-content-center">
+				  </ul>
+			</div>
+	  	</td>
+	  	<td class="right-side-td">
+	  		<div class="btn-group dropleft">
+						  <button type="button" class="selected-list__download-button icon-button" class="btn btn-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+	  							<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+	  							<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+							</svg>
+						  </button>
+						  
+						  <div class="dropdown-menu">
+						  	<h6 class="dropdown-header">Download</h6>
+			  				<div class="dropdown-divider"></div>
+						    <button class="selected-list__download-option dropdown-item" value="bib" type="button">BibTeX</button>
+						    <button class="selected-list__download-option dropdown-item" value="ris" type="button">RIS</button>
+						    <!--  <button class="selected-list__download-option dropdown-item" value="nt" type="button">RDF N-Triples</button>
+						    <button class="selected-list__download-option dropdown-item" value="ttl" type="button">RDF Turtle</button>
+						    <button class="selected-list__download-option dropdown-item" value="rdf" type="button">RDF/XML</button>-->
+						    <button class="selected-list__download-option dropdown-item" value="xml" type="button">XML</button>
+						    <li class="dropdown-submenu">
+						        <a class="selected-list__custom-option dropdown-item" tabindex="-1" href="#"><button class="unformatted-button" type="button">Custom XML</button><span class="caret"></span></a>
+						        <ul class="dropdown-menu">
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="title" checked><label>Title</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="author" checked><label>Authors</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="venue" checked><label>Venue</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="school" checked><label>School</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="journal" checked><label>Journal</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="pages" checked><label>Pages</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="volume" checked><label>Volume</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="year" checked><label>Year</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="type" checked><label>Type</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="url" checked><label>URL</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="ee" checked><label>External URL</label></li>
+						          <li><button id="selected-list__download-custom-xml" class="unformatted-button" value="xml" type="button">Get Custom XML</button></li>
+						        </ul>
+						      </li>
+						  </div>
+						</div>
+			<div class="btn-group dropleft">
+						  <button type="button" class="result-item__display-button icon-button btn-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
+								  <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"/>
+							  </svg>
+						  </button>
+						  
+						  <div class="dropdown-menu">
+						  	<h6 class="dropdown-header">Visualize</h6>
+			  				<div class="dropdown-divider"></div>
+						    <button class="selected-list__display-option dropdown-item" value="bib" type="button">BibTeX</button>
+						    <button class="selected-list__display-option dropdown-item" value="ris" type="button">RIS</button>
+						    <!--  <button class="selected-list__display-option dropdown-item" value="nt" type="button">RDF N-Triples</button>
+						    <button class="selected-list__display-option dropdown-item" value="ttl" type="button">RDF Turtle</button>
+						    <button class="selected-list__display-option dropdown-item" value="rdf" type="button">RDF/XML</button> -->
+						    <button class="selected-list__display-option dropdown-item" value="xml" type="button">XML</button>
+						    <li class="dropdown-submenu">
+						        <a class="selected-list__custom-option dropdown-item" tabindex="-1" href="#"><button class="unformatted-button" type="button">Custom XML</button><span class="caret"></span></a>
+						        <ul class="dropdown-menu">
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="title" checked ><label>Title</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="author" checked ><label>Authors</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="editor" checked ><label>Editors</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="venue" checked ><label>Venue</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="school" checked ><label>School</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="journal" checked ><label>Journal</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="pages" checked ><label>Pages</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="volume" checked ><label>Volume</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="year" checked ><label>Year</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="type" checked ><label>Type</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="url" checked ><label>URL</label></li>
+						          <li><input type="checkbox" class="custom-format__attribute-checkbox" value="ee" checked ><label>External URL</label></li>
+						          <li><button id="selected-list__visualize-custom-xml" class=" unformatted-button" value="xml" type="button">Get Custom XML</button></li>
+						        </ul>
+						      </li>
+						  </div>
+						  
+						</div>
+						<button type="button"><label for="file-upload-input">Load .bib file</label></button>
+						<input type="file" id="file-upload-input" name="local-bibliography" accept=".bib"/>
+	  	</td>
+	  </tr>
+	</table>
+	
+	</section>
+
+	<p></p>
+	<footer>
+	Powered by DBLP
+	</footer>
+
+</body>
+</html>
