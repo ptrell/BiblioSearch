@@ -24,7 +24,6 @@
 //value -> value_quotes | value_braces | key;
 //value_quotes -> '"' .*? '"'; // not quite
 //value_braces -> '{' .*? '"'; // not quite
-(function(exports) {
 
     function BibtexParser() {
 
@@ -308,51 +307,4 @@
             this.alernativeCitationKey();
         };
     };
-
-    exports.toJSON = function(bibtex) {
-        var b = new BibtexParser();
-        b.setInput(bibtex);
-        b.bibtex();
-        return b.entries;
-    };
-
-    /* added during hackathon don't hate on me */
-    /* Increased the amount of white-space to make entries
-     * more attractive to humans. Pass compact as false
-     * to enable */
-    exports.toBibtex = function(json, compact) {
-        if (compact === undefined) compact = true;
-        var out = '';
-        
-        var entrysep = ',';
-        var indent = '';
-        if (!compact) {
-		      entrysep = ',\n';
-		      indent = '    ';        
-        }
-        for ( var i in json) {
-            out += "@" + json[i].entryType;
-            out += '{';
-            if (json[i].citationKey)
-                out += json[i].citationKey + entrysep;
-            if (json[i].entry)
-                out += json[i].entry ;
-            if (json[i].entryTags) {
-                var tags = indent;
-                for (var jdx in json[i].entryTags) {
-                    if (tags.trim().length != 0)
-                        tags += entrysep + indent;
-                    tags += jdx + (compact ? '={' : ' = {') + 
-                            json[i].entryTags[jdx] + '}';
-                }
-                out += tags;
-            }
-            out += compact ? '}\n' : '\n}\n\n';
-        }
-        return out;
-
-    };
-
-})(typeof exports === 'undefined' ? this['bibtexParse'] = {} : exports);
-
 /* end bibtexParse */
