@@ -59,6 +59,11 @@ function initialize(){
 	document.getElementById(maxYearInputId).setAttribute("max", new Date().getFullYear());
 	document.getElementById(minYearInputId).setAttribute("max", new Date().getFullYear());*/
 	let searchParams = new URL(document.location.toString()).searchParams;
+	if(searchParams.size == 0){
+		document.getElementById("results-elements").style.display="none";
+		populateSelectedResults();
+		return;
+	}
 	let searchMethod = searchParams.get("method");
 	let searchTerm = searchParams.get("search");
 	let desiredResults = searchParams.get("number");
@@ -66,6 +71,7 @@ function initialize(){
 	if(searchTerm==""){
 		document.getElementById("results-elements").style.display="none";
 		populateSelectedResults();
+		return;
 	}
 	
 	//sessionStorage.setItem("BiblioSearch-User_Selection-DBLP", JSON.stringify(selectionData));
