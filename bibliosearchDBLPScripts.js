@@ -1285,16 +1285,6 @@ $("#results__selected-list").on("click", ".selected-item__down-button", function
 	$(this).parent().parent().moveDown();
 	saveSelectedResults();
 	});
-	
-$("#results__selected-list").on("click", ".selected-item__down-button", function(){
-	$(this).parent().parent().moveDown();
-	saveSelectedResults();
-	});
-	
-$("#results__selected-list").on("click", ".selected-item__down-button", function(){
-	$(this).parent().parent().moveDown();
-	saveSelectedResults();
-	});
   
   $.fn.moveUp = function() {
 	    before = $(this).prev();
