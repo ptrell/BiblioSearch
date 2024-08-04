@@ -1060,7 +1060,7 @@ async function obtainSelectedResultsDBLP(results, format){
 		}
 		else{
 			//console.log(bibtexParse.toBibtex([refData]));
-			dataToDownload+=bibtexParse.toBibtex([refData]);
+			dataToDownload+=bibtexParse.toBibtex([refData], false);
 		}
 	}//);
 	//if the reference data isnt an XML object, the reference was added through a .bib file
