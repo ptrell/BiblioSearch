@@ -1148,7 +1148,7 @@ function loadBibContents(contents){
 	let added = false;
 	//try{
 	let refs = bibtexParse.toJSON(contents);
-	//console.log(refs);
+	console.log(refs);
 	refs.forEach((item) => {
 		selectResult(item);
 		added = true;
