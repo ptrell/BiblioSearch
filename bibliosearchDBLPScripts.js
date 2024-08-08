@@ -605,6 +605,26 @@ function createGenericResultItem(result){
 	}
 	else{
 		urlValue=urlElement.innerHTML;
+
+		urlSpanContents = 
+		`<div class="btn-group dropleft">
+			<button type="button" class="result-item__display-button icon-button btn-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
+					  <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"/>
+				</svg>
+		  	</button>
+		  
+		  <div class="dropdown-menu">
+		  <h6 class="dropdown-header">Visualize</h6>
+		  <div class="dropdown-divider"></div>
+		    <a class="dropdown-item" href="`
+		    + urlValue +
+		    `" target="_blank" value=".bib" type="button">Visit DBLP Record</a>
+		    <div class="dropdown-divider"></div>
+		  </div>
+		  
+		</div>`
+		
 		let urlSplit = urlValue.split('/');
 		idValue = urlSplit[4];
 		for(let i = 5; i<urlSplit.length; i++){
@@ -616,17 +636,18 @@ function createGenericResultItem(result){
 	}
 	
 	return(`<li class="result-item">
-	<span class="result-item__options">
-	</span>
+	<span class="result-item__options">`
+	+ urlSpanContents +
+	`</span>
 	
 	<span class="result-item__title-span">
-		<a class="result-item__title" href="`
-		+ urlValue +
-		`" target="_blank">`
+		<a class="result-item__title result-item__pub-title" href="`
+		+
+		`">`
 		+ nameValue +
 		`</a>
 		<span>
-		<a>ID: `
+		<a class="result-item__id">ID: `
 		+ idValue +
 		`</a>
 		</span>
@@ -1212,6 +1233,21 @@ $(document).ready(function(){
 			alert("The search term does not resemble a publisher ID. Please, double check the ID you're looking for or use a different search method.");
 			JsLoadingOverlay.hide();
 			return false;
+		}
+	});
+
+	$("#results__result-list").on("click", ".result-item__pub-title", function(e) {
+		e.preventDefault();
+		let id = this.parentElement.getElementsByClassName("result-item__id")[0].innerHTML.replace('ID: ','');
+		if(id != "" && !publicationSearchMethods.includes(currentSearchMethod) && (/..*[/].*./).test(id.replace(/\s/g,''))){
+			document.getElementById(searchBarTextInputId).value = id;
+			let method = "";
+			console.log(currentSearchMethod);
+			if(currentSearchMethod == "search/author/api"){method = "pid/"}
+			else if(currentSearchMethod == "search/venue/api"){method = "db/"}
+			let methodSelect = document.getElementById(searchMethodSelectId);
+			selectOptionByValue(methodSelect, method);
+			document.getElementById('search-form').submit();
 		}
 	});
 	  
