@@ -97,14 +97,14 @@ function initialize(){
 	searchOpenAccess = searchParams.get("open_access");
 	
 	let mendeleyUriArgs = {
-		[title]: searchParams.get("title"),
-		[author]: searchParams.get("author"),
-		[source]: searchParams.get("source"),
-		[abstract]: searchParams.get("abstract"),
-		[min_year]: searchParams.get("min_year"),
-		[max_year]: searchParams.get("max_year"),
-		[open_access]: searchParams.get("open_access"),
-		[view]: "bib"
+		title: searchParams.get("title"),
+		author: searchParams.get("author"),
+		source: searchParams.get("source"),
+		abstract: searchParams.get("abstract"),
+		min_year: searchParams.get("min_year"),
+		max_year: searchParams.get("max_year"),
+		open_access: searchParams.get("open_access"),
+		view: "bib"
 	};
 	
 	//let searchMethod = searchParams.get("method");
