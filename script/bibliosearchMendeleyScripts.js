@@ -66,11 +66,11 @@ function initialize(){
 	document.getElementById(maxYearInputId).setAttribute("max", new Date().getFullYear());
 	document.getElementById(minYearInputId).setAttribute("max", new Date().getFullYear());*/
 
-	/*mendeleyAPI = new MendeleySDK({
+	mendeleyAPI = new MendeleySDK({
 	  authFlow: MendeleySDK.Auth.implicitGrantFlow({
 	    clientId: 18861
 	  })
-	});*/
+	});
 	
 	let searchParams = new URL(document.location.toString()).searchParams;
 	if(searchParams.size == 0){
