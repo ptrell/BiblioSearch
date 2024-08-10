@@ -107,7 +107,7 @@ function initialize(){
 		view: "bib"
 	};
 	
-	//let searchMethod = searchParams.get("method");
+	let searchMethod = searchParams.get("method");
 	let searchTerm = searchParams.get("search");
 	/*let searchTitle = searchParams.get("title");
 	let searchSource = searchParams.get("source");
