@@ -128,8 +128,8 @@ function initialize(){
 		document.getElementById(searchBarTextInputId).value=searchTerm;
 		let methodSelect = document.getElementById(searchMethodSelectId);
 		selectOptionByValue(methodSelect, searchMethod);
-		let numberSelect = document.getElementById(resultsNumberSelectId);
-		selectOptionByValue(numberSelect, desiredResults);
+		//let numberSelect = document.getElementById(resultsNumberSelectId);
+		//selectOptionByValue(numberSelect, desiredResults);
 		
 		obtainResultsMendeley(mendeleyUriArgs);
 	}
