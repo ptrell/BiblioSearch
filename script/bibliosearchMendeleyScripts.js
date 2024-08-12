@@ -322,7 +322,7 @@ async function obtainResultsMendeley(uriArgs){
 		fetchedResults = [];
 		//let searchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
 		
-		api.catalog
+		mendeleyAPI.catalog
 		    .search(uriArgs)
 		    .done(receiveResultsMendeley)
 		    .fail(errorHandler);
