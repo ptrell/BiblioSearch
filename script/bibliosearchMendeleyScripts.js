@@ -323,12 +323,9 @@ async function obtainResultsMendeley(uriArgs){
 		fetchedResults = [];
 		//let searchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
 
-	console.log(uriArgs);
-
 		let usableArgs = Object.fromEntries(Object.entries(uriArgs).filter(([_, v]) => v != null && v != ""));
-	console.log(usableArgs);
 		let req = mendeleyAPI.search
-		    .catalog(uriArgs);
+		    .catalog(usableArgs);
 
 	console.log(req);
 	req.then(function (data){
