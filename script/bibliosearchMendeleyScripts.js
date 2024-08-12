@@ -341,7 +341,7 @@ async function obtainResultsMendeley(uriArgs){
 }
 
 function receiveResultsMendeley(data){
-	
+	console.log(data);
 }
 
 function populateResultsDBLP(pageNumber){
