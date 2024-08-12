@@ -257,6 +257,11 @@ footer {
 	min-width: 75px;
 }
 
+#search-bar__limit-select {
+	max-width: 130px;
+	min-width: 75px;
+}
+
 #text-input__div {
 	width: 33%;
 	min-width: 33%
