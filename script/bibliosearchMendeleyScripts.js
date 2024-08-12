@@ -326,7 +326,7 @@ async function obtainResultsMendeley(uriArgs){
 		    .search(uriArgs);
 
 	console.log(req);
-	req.done(function (data){
+	req.then(function (data){
 		console.log(data);
 	});
 		    //.done(receiveResultsMendeley)
