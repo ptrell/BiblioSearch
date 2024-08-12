@@ -99,8 +99,9 @@ function initialize(){
 	
 	let mendeleyUriArgs = {
 		query: "test",
+		author: searchAuthor,
 		/*title: ""searchParams.get("title"),
-		author: ""searchParams.get("author"),
+		
 		source: ""searchParams.get("source"),
 		abstract: ""searchParams.get("abstract"),
 		min_year: ""searchParams.get("min_year"),
