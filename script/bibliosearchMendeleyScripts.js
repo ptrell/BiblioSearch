@@ -324,20 +324,21 @@ async function obtainResultsMendeley(uriArgs){
 		//let searchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
 
 		let usableArgs = Object.fromEntries(Object.entries(uriArgs).filter(([_, v]) => v != null && v != ""));
-		let req = mendeleyAPI.search
-		    .catalog(usableArgs);
-
-	console.log(req);
-	req.then(function (data){
-		console.log(data);
-	});
+		mendeleyAPI.search
+		    .catalog(usableArgs)
+		    .then(function (data){
+			console.log(data);
+			usableResults = data.items;
+			JsLoadingOverlay.hide();
+			populateResultsDBLP(1);
+		    });
 		    //.done(receiveResultsMendeley)
 		    //.fail(errorHandler);
 		
-		currentSearchMethod = searchMethod;
+		/*currentSearchMethod = searchMethod;
 		usableResults = fetchedResults;
 		JsLoadingOverlay.hide();
-		populateResultsDBLP(1);
+		populateResultsDBLP(1);*/
 /*	}
     catch(error){
     	//console.log(error);
