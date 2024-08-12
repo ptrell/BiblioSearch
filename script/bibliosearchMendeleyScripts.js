@@ -98,6 +98,7 @@ function initialize(){
 	//searchOpenAccess = searchParams.get("open_access");
 	
 	let mendeleyUriArgs = {
+		limit: 100,
 		query: encodeURIComponent(searchQuery),
 		title: encodeURIComponent(searchTitle),
 		author: encodeURIComponent(searchAuthor),
