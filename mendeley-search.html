@@ -46,7 +46,7 @@
 			</select>
 			
 			<div id="text-input__div" class="form-outline" data-mdb-input-init>
-				<input type="search" id="search-bar__text-input" name="search" id="form1" class="form-control" />
+				<input type="search" id="search-bar__text-input" name="query" id="form1" class="form-control" />
 			</div>
 			
 			<button type="submit" id="search-bar__search-button" class="btn btn-primary" value="" data-mdb-ripple-init>
@@ -73,7 +73,9 @@
 	  <input type="checkbox" id="touch">
 	
 	  <ul id="advanced-search__list" class="basic-list">
-	  
+
+		<li id="adv-title"><label class="advanced-search__list__label">Title: </label> <input type="text" id="title-input" name="title" class="advanced-input"></li>
+		<li id="adv-abstract"><label class="advanced-search__list__label">Abstract: </label> <input type="text" id="abstract-input" name="abstract" class="advanced-input"></li>
 	  	<li id="adv-author"><label class="advanced-search__list__label">Author: </label> <input type="text" id="author-input" name="author" class="advanced-input"></li>
 	  	<li id="adv-source"><label class="advanced-search__list__label">Source: </label> <input type="text" id="source-input" name="source" class="advanced-input"> </li> 
 	    <li><label class="advanced-search__list__label">Year: </label> From <input type="number" min="1900" id="min-year" name="min_year"> to <input type="number" min="1900" id="max-year" name="max_year"></li> 
