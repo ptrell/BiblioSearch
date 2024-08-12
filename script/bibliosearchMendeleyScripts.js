@@ -509,6 +509,7 @@ function createResultItem(result){
 </span>
 	
 </li>`);
+}
 	
 function createSelectedItem(result){
 	
