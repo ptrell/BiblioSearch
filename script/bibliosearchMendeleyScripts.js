@@ -90,6 +90,7 @@ function initialize(){
 	
 	searchTitle = searchParams.get("title");
 	searchAuthor = searchParams.get("author");
+	console.log(searchAuthor);
 	searchSource = searchParams.get("source");
 	searchAbstract = searchParams.get("abstract");
 	searchMinYear = searchParams.get("min_year");
@@ -313,7 +314,7 @@ async function obtainResultsMendeley(uriArgs){
     //page.document.write(data);
     
     JsLoadingOverlay.show();
-    try{
+    //try{
 		let data="";
 		let parser = new DOMParser();
 		
@@ -330,14 +331,14 @@ async function obtainResultsMendeley(uriArgs){
 		usableResults = fetchedResults;
 		JsLoadingOverlay.hide();
 		populateResultsDBLP(1);
-	}
+/*	}
     catch(error){
     	//console.log(error);
     	currentSearchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
     	usableResults=[];
     	createResultErrorMessage("No results were found for the current search terms.")
     	JsLoadingOverlay.hide();
-    }
+    }*/
 }
 
 function receiveResultsMendeley(data){
