@@ -229,25 +229,6 @@ function isXML(elem) {
     return documentElement ? documentElement.nodeName !== "HTML" : false;
 }
 
-/*function updateAdvancedOptions(){
-//get the index value from the selected method
-	let selectedMethodIndex = document.getElementById(searchMethodSelectId).selectedOptions[0].index;
-//get the search option list's id
-	let advancedOptionsList = document.getElementById(advancedSearchOptionListId);
-//get a list/array with all entries inside the search option list
-	let advancedOptions = document.getElementById(advancedSearchOptionListId).getElementsByTagName("li");
-//if there was a previous selected method, for every element y from the list of options that the old method toggled on, disable their display
-	if(previousMethodIndex!=null){
-		for(let i=0; i<toggleableSearchOptions[previousMethodIndex].length; i++){
-			document.getElementById(toggleableSearchOptions[previousMethodIndex][i]).style.display="none";
-		}
-	}
-//for every element y from the list of options that the current method can toggle, enable their display
-	for(let i=0; i<toggleableSearchOptions[selectedMethodIndex].length; i++){
-		document.getElementById(toggleableSearchOptions[selectedMethodIndex][i]).style.display="block";
-	}
-}*/
-
 function selectOptionByValue(selectElement, value){
 	for (let i = 0; i<selectElement.options.length; i++){
 		if(selectElement.options[i].getAttribute("value")==value){
@@ -256,72 +237,7 @@ function selectOptionByValue(selectElement, value){
 	}
 }
 
-function generateNewAPIRequest(searchMethod, searchTerm, desiredResults, index){
-	return endpointDBLP + searchMethod + "?q=" + encodeURIComponent(searchTerm) +"&h=" + Math.min(1000, desiredResults)/*resultsPerSearch getMaxInputs()*/ + "&f=" + index + "&format=" + defaultAPIFormatDBLP;
-}
-
-function generateNewRequest(prefix, term, suffix, format){
-	return endpointDBLP + prefix + term + suffix + "." + format;
-}
-
-/*function getMaxInputs(){
-	let allInputsEmpty = true;
-	
-	(document.getElementById(advancedSearchOptionListId).querySelectorAll('input').forEach((element) => {
-	        if (element.value != '') {
-	        	allInputsEmpty = false;
-	            return false;
-	        }
-	    }));
-	if(allInputsEmpty){
-		return apiDefaultMaxHitsDBLP;
-	}
-	return apiMaxHitsLargeDBLP;
-}
-*/
-	
-const searchDBLP = (requestURL) => {
-	//if requestURL differs from the previous one, reset index parameters
-	//alert(requestURL);
-	return fetch(requestURL)
-	  .then(response => {
-	    if (!response.ok) {
-	    	(response.status);
-	    	if (response.status === 404) throw new Error('The requested resource could not be found: \n' + requestURL);
-	    	else if (response.status === 500) throw new Error('An Internal server error ocurred during your search.');
-	    	else if (response.status === 429) throw new Error('Too many requests. Try again later.')
-	    	else throw new Error(response.status + ": " + 'Network response was not ok');
-	    }
-	    else if(response.ok){
-	    	if (response.status === 404) throw new Error('The requested resource could not be found: \n' + requestURL);
-	    	else if (response.status === 500) throw new Error('An Internal server error ocurred during your search.');
-	    	else if (response.status === 429) throw new Error('Too many requests. Try again later.')
-	    }
-	    return response.text();
-	  })
-	  .then(data => {
-	    // Display data in an HTML element
-	    //outputElement.textContent = JSON.stringify(data, null, 2);
-	    //console.log(data);
-	    return data;
-	  })
-	  .catch(error => {
-		  //fail first, errors should always be thrown as soon as they happen
-		  //console.log(isNetworkError(error));
-		  //alert('Error: ' + error.message);
-		  if (isNetworkError(error)){alert('Error: Failed to establish connection to the server.\nThis may be due to network problems or other issues, or you may have made too many requests.\nIf the issue persists, try checking your internet connection, lowering your desired number of results under the Advanced Search menu, and trying again later.')}
-		  //else {alert('Error: ' + error.message);}
-	  });
-	//if reset is false, the user is currently scrolling down the results list, and thus the page should not be reloaded
-		//else, save all necessary data such as the user's selected results in local storage for later retrieval via the save selected results function
-		//make the petition, reloading the page and letting the results function take care of the rest
-}
-
 async function obtainResultsMendeley(uriArgs){
-	//retreive results obtained from api petition
-	//let page = window.open();
-    //page.document.write(data);
-    
     JsLoadingOverlay.show();
     //try{
 		let data="";
@@ -338,6 +254,7 @@ async function obtainResultsMendeley(uriArgs){
 		    .then(function (data){
 			console.log(data);
 			usableResults = data.items;
+			console.log(usableResults);
 			JsLoadingOverlay.hide();
 			populateResultsDBLP(1);
 		    });
@@ -374,19 +291,10 @@ function populateResultsDBLP(pageNumber){
 		let frag = document.createDocumentFragment();
 		frag.innerHTML = "";
 		let maxIndex = Math.min((index + resultsPerPage), filteredResults.length);
-		let resultCreator;
-		if(publicationSearchMethods.includes(currentSearchMethod)){
-			resultCreator = (x) => {return createResultItem(x)};
-		}
-		else{resultCreator = (x) => {return createGenericResultItem(x)};}
 			
 		for(let i = index; i < maxIndex; i++){
-			//console.log(resultCreator);
-			//console.log(filteredResults[i]);
 			//using document fragments because adding elements to them and then adding the fragment to the father element as a child is faster than adding all of them into the live page one by one
-			//we dont use innnerHTML because its slow and may cause security issues
-			//console.log(filteredResults[i]);
-			frag.innerHTML+=resultCreator(filteredResults[i]);
+			frag.innerHTML+=createResultItem(filteredResults[i]);
 		}
 			
 		resultList.innerHTML = frag.innerHTML;
