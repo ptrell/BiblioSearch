@@ -326,6 +326,7 @@ async function obtainResultsMendeley(uriArgs){
 	console.log(uriArgs);
 
 		let usableArgs = Object.fromEntries(Object.entries(uriArgs).filter(([_, v]) => v != null && v != ""));
+	console.log(usableArgs);
 		let req = mendeleyAPI.search
 		    .catalog(uriArgs);
 
