@@ -322,10 +322,15 @@ async function obtainResultsMendeley(uriArgs){
 		fetchedResults = [];
 		//let searchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
 		
-		MendeleySDK.API.catalog
-		    .search(uriArgs)
-		    .done(receiveResultsMendeley)
-		    .fail(errorHandler);
+		let req = mendeleyAPI.catalog
+		    .search(uriArgs);
+
+	console.log(req);
+	req.done(function (data){
+		console.log(data);
+	});
+		    //.done(receiveResultsMendeley)
+		    //.fail(errorHandler);
 		
 		currentSearchMethod = searchMethod;
 		usableResults = fetchedResults;
