@@ -33,15 +33,12 @@
 	
 		<div class="input-group" id="search-bar">
 		
-			<select class="form-select" id="search-bar__method-select" name="method" aria-label="Search Method">
-				<optgroup label="Publication Search Methods">
-					<option value="search/publ/api" selected>Publications</option>
-					<option value="pid/">Pub. by Author PID</option>
-					<option value="db/">Pub. by Venue ID</option>
-				</optgroup>
-				<optgroup label="Publisher Search Methods">
-					<option value="search/author/api">Authors</option>
-					<option value="search/venue/api">Venues</option>
+			<select class="form-select" id="search-bar__limit-select" name="limit" aria-label="Search Limit">
+				<optgroup label="Number of Results">
+					<option value="10" selected>10</option>
+					<option value="25">25</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
 				</optgroup>
 			</select>
 			
