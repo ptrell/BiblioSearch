@@ -12,17 +12,20 @@ const searchButtonId = "search-bar__search-button";
 const advancedSearchOptionListId = "advanced-search__list";
 const searchBarTextInputId = "search-bar__text-input"
 const searchMethodSelectId = "search-bar__method-select";
+const searchLimitSelectId = "search-bar__limit-select";
 const resultsNumberSelectId = "results-number-input";
 
+const titleInputId = "title-input";
+const abstractInputId = "abstract-input";
 const authorInputId = "author-input";
-const venueInputId = "venue-input";
+const sourceInputId = "source-input";
 const minYearInputId = "min-year";
 const maxYearInputId = "max-year";
 const pubTypeInputId = "type-input";
 
 const titleFilterId = "title-filter";
 const authorFilterId = "author-filter";
-const venueFilterId = "venue-filter";
+const sourceFilterId = "source-filter";
 const minYearFilterId = "min-year-filter";
 const maxYearFilterId = "max-year-filter";
 const pubTypeFilterId = "type-filter";
@@ -95,10 +98,11 @@ function initialize(){
 	searchAbstract = searchParams.get("abstract");
 	searchMinYear = searchParams.get("min_year");
 	searchMaxYear = searchParams.get("max_year");
+	searchLimit = searchParams.get("limit");
 	//searchOpenAccess = searchParams.get("open_access");
 	
 	let mendeleyUriArgs = {
-		limit: 100,
+		limit: encodeURIComponent(searchLimit),
 		query: encodeURIComponent(searchQuery),
 		title: encodeURIComponent(searchTitle),
 		author: encodeURIComponent(searchAuthor),
@@ -128,11 +132,14 @@ function initialize(){
 	else{
 		populateSelectedResults();
 		
-		document.getElementById(searchBarTextInputId).value=searchTerm;
-		let methodSelect = document.getElementById(searchMethodSelectId);
-		selectOptionByValue(methodSelect, searchMethod);
-		//let numberSelect = document.getElementById(resultsNumberSelectId);
-		//selectOptionByValue(numberSelect, desiredResults);
+		document.getElementById(searchBarTextInputId).value=searchQuery;
+		document.getElementById(titleInputId).value=searchTitle;
+		document.getElementById(abstractInputId).value=searchAbstract;
+		document.getElementById(sourceInputId).value=searchSource;
+		document.getElementById(minYearInputId).value=searchMinYear;
+		document.getElementById(maxYearInputId).value=searchMaxYear;
+		let limitSelect = document.getElementById(searchLimitSelectId);
+		selectOptionByValue(limitSelect, searchLimit);
 		
 		obtainResultsMendeley(mendeleyUriArgs);
 	}
@@ -814,12 +821,12 @@ function filterResultsDBLP(){
 	JsLoadingOverlay.show();
 	let titleFilter = document.getElementById(titleFilterId).value;
 	let authorFilter = document.getElementById(authorFilterId).value;
-	let venueFilter = document.getElementById(venueFilterId).value;
+	let sourceFilter = document.getElementById(sourceFilterId).value;
 	let minYearFilter = document.getElementById(minYearFilterId).value;
 	let maxYearFilter = document.getElementById(maxYearFilterId).value;
 	let pubTypeFilter = document.getElementById(pubTypeFilterId).value;
 	
-	if(titleFilter == authorFilter && authorFilter==venueFilter && venueFilter==minYearFilter && minYearFilter==maxYearFilter && maxYearFilter==pubTypeFilter && pubTypeFilter==""){
+	if(titleFilter == authorFilter && authorFilter==sourceFilter && sourceFilter==minYearFilter && minYearFilter==maxYearFilter && maxYearFilter==pubTypeFilter && pubTypeFilter==""){
 		
 		usableResults=fetchedResults;
 		
@@ -854,10 +861,10 @@ function filterResultsDBLP(){
 				else{validSoFar = false;}
 			}
 			
-			if(venueFilter!="" && validSoFar){
-				let venueList = Array.from(element.getElementsByTagName("venue"));
-				if(venueList.length>0){
-					validSoFar = venueList.some(ven => ven.innerHTML.toLowerCase().includes(venueFilter.toLowerCase()));
+			if(sourceFilter!="" && validSoFar){
+				let sourceList = Array.from(element.getElementsByTagName("source"));
+				if(sourceList.length>0){
+					validSoFar = sourceList.some(ven => ven.innerHTML.toLowerCase().includes(sourceFilter.toLowerCase()));
 				}
 				else{validSoFar = false;}
 			}
