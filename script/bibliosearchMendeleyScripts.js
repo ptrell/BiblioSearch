@@ -87,26 +87,25 @@ function initialize(){
 			searchParams.push(paramValue);
 		}
 	});*/
-	
+
+	searchQuery = searchParams.get("query");
 	searchTitle = searchParams.get("title");
 	searchAuthor = searchParams.get("author");
-	console.log(searchAuthor);
 	searchSource = searchParams.get("source");
 	searchAbstract = searchParams.get("abstract");
 	searchMinYear = searchParams.get("min_year");
 	searchMaxYear = searchParams.get("max_year");
-	searchOpenAccess = searchParams.get("open_access");
+	//searchOpenAccess = searchParams.get("open_access");
 	
 	let mendeleyUriArgs = {
-		query: "test",
-		author: searchAuthor,
-		/*title: ""searchParams.get("title"),
-		
-		source: ""searchParams.get("source"),
-		abstract: ""searchParams.get("abstract"),
-		min_year: ""searchParams.get("min_year"),
-		max_year: ""searchParams.get("max_year"),
-		open_access: ""searchParams.get("open_access"),*/
+		query: encodeURIComponent(searchQuery),
+		title: encodeURIComponent(searchTitle),
+		author: encodeURIComponent(searchAuthor),
+		source: encodeURIComponent(searchSource),
+		abstract: encodeURIComponent(searchAbstract),
+		min_year: (searchMinYear),
+		max_year: (searchMaxYear),
+		//open_access: ""searchParams.get("open_access"),
 		view: "bib"
 	};
 	
