@@ -427,58 +427,18 @@ function createResultErrorMessage(msg){
 }
 
 function createResultItem(result){
-	let urlElement;
-	let urlValue;
-	let urlElementNames = ['ee', 'url'];
-	/*let venElement;
-	let venValue;
-	let venElementNames = ['venue', 'school'];*/
-	//for each possible url element, until urlElement isnt undefined
-	for(let i = 0; urlElement==undefined && i<urlElementNames.length; i++){
-		urlElement = result.getElementsByTagName(urlElementNames[i])[0];
-	}
-	//if urlElement remains undefined, no elements were found. Make urlValue an empty string
-	if(urlElement == undefined){urlValue="";}
-	//otherwise, make it urlElement's innerHTML
-	else{urlValue=urlElement.innerHTML;}
 	
-	/*for(let i = 0; venElement==undefined && i<venElementNames.length; i++){
-		console.log(result);
-		console.log(venElement);
-		console.log(venElementNames[i]);
-		console.log(result.getElementsByTagName(venElementNames[i])[0]);
-		venElement = result.getElementsByTagName(venElementNames[i])[0];
-	}
-	if(venElement == undefined){venValue="Unknown";}
-	else{venValue=venElement.innerHTML;}*/
+	let yearValue = result.year;
+	if(yearValue == undefined){yearValue="Unknown Year";}
 	
-	let DBLPUrlElement = result.getElementsByTagName("url")[0];
-	let DBLPUrlValue;
-	if(DBLPUrlElement == undefined){DBLPUrlValue="<<No Name Found for This Article>>";}
-	else{DBLPUrlValue = DBLPUrlElement.innerHTML;}
-	if(!DBLPUrlValue.includes(endpointDBLP)){
-		DBLPUrlValue = endpointDBLP + DBLPUrlValue;
-	}
-	//console.log(DBLPUrlValue);
+	let sourceValue = result.source;
+	if(sourceValue == undefined){sourceValue="";}
 	
-	let yearElement = result.getElementsByTagName("year")[0];
-	let yearValue;
-	if(yearElement == undefined){yearValue="Unknown Year";}
-	else{yearValue = yearElement.innerHTML;}
-	
-	let venueElement = result.getElementsByTagName("venue")[0];
-	let venueValue;
-	if(venueElement == undefined){venueValue="";}
-	else{venueValue = "- " + venueElement.innerHTML;}
-	
-	let typeElement = result.getElementsByTagName("type")[0];
-	let typeValue;
-	if(typeElement == undefined){typeValue="";}
-	else{typeValue = "- " + typeElement.innerHTML;}
-	
-	let nameElement = result.getElementsByTagName("title")[0];
-	if(nameElement == undefined){nameValue="<<No Name Found for This Article>>";}
-	else{nameValue=nameElement.innerHTML;}
+	let typeValue = result.type;
+	if(typeValue == undefined){typeValue="";}
+
+	let nameValue = result.title;
+	if(nameValue == undefined){nameValue="<<No Title Found for This Article>>";}
 	
 	return(`<li class="result-item">
 			<span class="result-item__options">
@@ -493,12 +453,8 @@ function createResultItem(result){
 			  <div class="dropdown-menu">
 			  	<h6 class="dropdown-header">Download</h6>
 			  	<div class="dropdown-divider"></div>
+      			    <button class="download-button__download-option dropdown-item" value="json" type="button">JSON</button>
 			    <button class="download-button__download-option dropdown-item" value="bib" type="button">BibTeX</button>
-			    <button class="download-button__download-option dropdown-item" value="ris" type="button">RIS</button>
-			    <button class="download-button__download-option dropdown-item" value="nt" type="button">RDF N-Triples</button>
-			    <button class="download-button__download-option dropdown-item" value="ttl" type="button">RDF Turtle</button>
-			    <button class="download-button__download-option dropdown-item" value="rdf" type="button">RDF/XML</button>
-			    <button class="download-button__download-option dropdown-item" value="xml" type="button">XML</button>
 			  </div>
 			  
 			</div>
@@ -514,15 +470,11 @@ function createResultItem(result){
 			  <h6 class="dropdown-header">Visualize</h6>
 			  <div class="dropdown-divider"></div>
 			    <a class="dropdown-item" href="`
-			    + DBLPUrlValue+
-			    `" target="_blank" value=".bib" type="button">Visit DBLP Record</a>
+			    + urlValue +
+			    `" target="_blank" value=".bib" type="button">Visit Mendeley Record</a>
 			    <div class="dropdown-divider"></div>
+       				    <button class="display-button__display-option dropdown-item" value="json" type="button">JSON</button>
 				    <button class="display-button__display-option dropdown-item" value="bib" type="button">BibTeX</button>
-				    <button class="display-button__display-option dropdown-item" value="ris" type="button">RIS</button>
-				    <button class="display-button__display-option dropdown-item" value="nt" type="button">RDF N-Triples</button>
-				    <button class="display-button__display-option dropdown-item" value="ttl" type="button">RDF Turtle</button>
-				    <button class="display-button__display-option dropdown-item" value="rdf" type="button">RDF/XML</button>
-				    <button class="display-button__display-option dropdown-item" value="xml" type="button">XML</button>
 			  </div>
 			  
 			</div>
@@ -539,7 +491,7 @@ function createResultItem(result){
 			+ yearValue +
 			`</a>
 			<a class="result-item__info--venue">`
-			+ venueValue +
+			+ sourceValue +
 			`</a>
 			<a class="result-item__info--type">`
 			+ typeValue +
@@ -557,85 +509,7 @@ function createResultItem(result){
 </span>
 	
 </li>`);
-}
-
-function createGenericResultItem(result){
-	let nameElement;
-	let nameValue;
-	let nameElementNames = ['author', 'venue'];
-	//for each possible name element, until nameElement isnt undefined
-	for(let i = 0; nameElement==undefined && i<nameElementNames.length; i++){
-		nameElement = result.getElementsByTagName(nameElementNames[i])[0];
-	}
-	//if urlElement remains undefined, no elements were found. Make urlValue an empty string
-	if(nameElement == undefined){nameValue="";}
-	//otherwise, make it urlElement's innerHTML
-	else{nameValue=nameElement.innerHTML;}
 	
-	let urlElement = result.getElementsByTagName("url")[0];
-	let urlValue;
-	let idValue;
-	if(urlElement == undefined){
-		urlValue="<<No Name Found for This Result>>";
-		idValue="<<ID not found>>";
-	}
-	else{
-		urlValue=urlElement.innerHTML;
-
-		urlSpanContents = 
-		`<div class="btn-group dropleft">
-			<button type="button" class="result-item__display-button icon-button btn-secondary" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-display" viewBox="0 0 16 16">
-					  <path d="M0 4s0-2 2-2h12s2 0 2 2v6s0 2-2 2h-4q0 1 .25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75Q6 13 6 12H2s-2 0-2-2zm1.398-.855a.76.76 0 0 0-.254.302A1.5 1.5 0 0 0 1 4.01V10c0 .325.078.502.145.602q.105.156.302.254a1.5 1.5 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.76.76 0 0 0 .254-.302 1.5 1.5 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.76.76 0 0 0-.302-.254A1.5 1.5 0 0 0 13.99 3H2c-.325 0-.502.078-.602.145"/>
-				</svg>
-		  	</button>
-		  
-		  <div class="dropdown-menu">
-		  <h6 class="dropdown-header">Visualize</h6>
-		  <div class="dropdown-divider"></div>
-		    <a class="dropdown-item" href="`
-		    + urlValue +
-		    `" target="_blank" value=".bib" type="button">Visit DBLP Record</a>
-		    <div class="dropdown-divider"></div>
-		  </div>
-		  
-		</div>`
-		
-		let urlSplit = urlValue.split('/');
-		idValue = urlSplit[4];
-		for(let i = 5; i<urlSplit.length; i++){
-			if(urlSplit[i]!=""){
-				idValue+="/";
-				idValue+=urlSplit[i];
-			}
-		}
-	}
-	
-	return(`<li class="result-item">
-	<span class="result-item__options">`
-	+ urlSpanContents +
-	`</span>
-	
-	<span class="result-item__title-span">
-		<a class="result-item__title result-item__pub-title" href="`
-		+
-		`">`
-		+ nameValue +
-		`</a>
-		<span>
-		<a class="result-item__id">ID: `
-		+ idValue +
-		`</a>
-		</span>
-	</span>
-	
-	<span class="result-item__options--right">
-	</button>
-</span>
-	
-</li>`);
-}
-
 function createSelectedItem(result){
 	
 	let urlValue;
