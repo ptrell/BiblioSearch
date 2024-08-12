@@ -321,7 +321,8 @@ async function obtainResultsMendeley(uriArgs){
 		//process the retreived results to obtain the list of article items
 		fetchedResults = [];
 		//let searchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
-		
+
+	console.log(uriArgs);
 		let req = mendeleyAPI.search
 		    .catalog(uriArgs);
 
