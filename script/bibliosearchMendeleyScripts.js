@@ -345,7 +345,7 @@ function createResultItem(result){
 	let typeValue = result.type;
 	if(typeValue == undefined){typeValue="";}
 
-	let urlValue = result.url;
+	let urlValue = result.link;
 	if(urlValue == undefined){urlValue="";}
 
 	let nameValue = result.title;
@@ -455,7 +455,7 @@ function createSelectedItem(result){
 		urlValue = result.entryTags.url;
 		}
 		catch(error){
-			urlValue = result.url;
+			urlValue = result.link;
 			if(urlValue == undefined){urlValue="";}
 
 			nameValue = result.title;
@@ -820,49 +820,14 @@ async function obtainSelectedResultsDBLP(results, format){
 	//results.forEach(async function(result){
 		let refData = getJQData(result, "result");
 		//console.log(refData);
-		if(isXML(refData)){
-			let key;
-			let keyList = Array.from(refData.getElementsByTagName("key"));
-			//console.log(keyList.length);
-			if(!(keyList.length>0)){
-				keyList = Array.from(refData.querySelectorAll('[key]'));
-				//console.log(keyList.length);
-				if(keyList.length>0){
-					key = keyList[0].getAttribute("key");
-				}
-				else{
-					key=refData.getAttribute("key");
-				}
-				
-			}
-			else{
-				key = keyList[0].innerHTML;
-			}
-			//console.log
-			if(key!="" || key!=undefined){
-				//console.log(generateNewRequest(recPrefixDBLP, key, "", format));
-				let obtained = await searchDBLP(generateNewRequest(recPrefixDBLP, key, "", format)).then((e) => {return e;});
-				//console.log(obtained);
-				if(obtained==undefined){
-					//error
-					obtained=="";
-				}
-				/*console.log(obtained.substring(0,14));
-				if (format === "xml" && obtained.substring(0,14) === '<?xml version='){
-				    // break the textblock into an array of lines
-				    let lines = obtained.split('\n');
-				    // remove one line, starting at the first position
-				    lines.splice(0,1);
-				    // join the array back into a single string
-				    obtained = lines.join('\n');
-				}*/
-				dataToDownload+=obtained;
-				//console.log(dataToDownload);
-			}
-		}
-		else{
+		try{
 			//console.log(bibtexParse.toBibtex([refData]));
-			dataToDownload+=bibtexParse.toBibtex([refData], false);
+			let bibDat = bibtexParse.toBibtex([refData], false)
+			dataToDownload+=bibDat;
+		}
+		catch{
+			let jsonDat = JSON.stringify(refData);
+			dataToDownload+=jsonDat;
 		}
 	}//);
 	//if the reference data isnt an XML object, the reference was added through a .bib file
