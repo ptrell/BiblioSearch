@@ -345,6 +345,9 @@ function createResultItem(result){
 	let typeValue = result.type;
 	if(typeValue == undefined){typeValue="";}
 
+	let urlValue = result.url;
+	if(urlValue == undefined){urlValue="";}
+
 	let nameValue = result.title;
 	if(nameValue == undefined){nameValue="<<No Title Found for This Article>>";}
 	
