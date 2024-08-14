@@ -450,8 +450,17 @@ function createSelectedItem(result){
 
 	}
 	else{
+		try{
 		nameValue = "[LOADED .BIB ITEM]\n" + result.entryTags.title;
 		urlValue = result.entryTags.url;
+		}
+		catch(error){
+			urlValue = result.url;
+			if(urlValue == undefined){urlValue="";}
+
+			nameValue = result.title;
+			if(nameValue == undefined){nameValue="<<No Title Found for This Article>>";}
+		}
 	}
 	
 	return(`<li class="selected-item">
