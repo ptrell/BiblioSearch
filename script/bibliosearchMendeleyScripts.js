@@ -187,7 +187,7 @@ function initialize(){
 };
 
 function convertMendeleyJSONtoBibTeX(item){
-	console.log(item=;
+	console.log(item);
 	let bib = {
 		citationKey:"Mendeley:"+item.type+"/"+item.id,
 		entryTags:{
