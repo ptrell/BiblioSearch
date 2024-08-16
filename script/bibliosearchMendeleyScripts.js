@@ -202,30 +202,34 @@ function convertMendeleyJSONtoBibTeX(item){
 
 	switch (bib.entryType){
 		case "article":
-			bib.entryTags[journal]=item.source;
+			bib.entryTags["journal"]=item.source;
 			break;
 			
 		case "book":
-			bib.entryTags[publisher]=item.source;
+			bib.entryTags["publisher"]=item.source;
 			break;
 		
 		case "inbook":
-			bib.entryTags[publisher]=item.source;
+			bib.entryTags["publisher"]=item.source;
 			break;
 			
 		case "masterthesis":
-			bib.entryTags[school]=item.source;
+			bib.entryTags["school"]=item.source;
 			break;
 			
 		case "techreport":
-			bib.entryTags[institution]=item.source;
-			break;		
+			bib.entryTags["institution"]=item.source;
+			break;	
+
+		case "misc":
+			bib.entryTags["source"]=item.source;
+			break;	
 	};
 
 	for(let i = 0; i < item.authors.length; i++){
-		bib[author] += item.authors[i][first_name] + " " + item.authors[i][last_name];
+		bib["author"] += item.authors[i]["first_name"] + " " + item.authors[i]["last_name"];
 		if(i < item.authors.length-1){
-			bib[author] += "and ";
+			bib["author"] += "and ";
 		}
 	}
 
