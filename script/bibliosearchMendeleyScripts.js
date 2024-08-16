@@ -200,23 +200,23 @@ function convertMendeleyJSONtoBibTeX(item){
 	};
 
 	switch (bib.entryType){
-		case "article"
+		case "article":
 			bib.entryTags[journal]=item.source;
 			break;
 			
-		case "book"
+		case "book":
 			bib.entryTags[publisher]=item.source;
 			break;
 		
-		case "inbook"
+		case "inbook":
 			bib.entryTags[publisher]=item.source;
 			break;
 			
-		case "masterthesis"
+		case "masterthesis":
 			bib.entryTags[school]=item.source;
 			break;
 			
-		case "techreport"
+		case "techreport":
 			bib.entryTags[institution]=item.source;
 			break;		
 	};
