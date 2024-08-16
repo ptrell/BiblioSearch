@@ -899,7 +899,7 @@ async function obtainSelectedResultsDBLP(results, format){
 
 async function displayResults(dataToDisplay, format){
 	JsLoadingOverlay.show();
-	try{
+	//try{
 	dataToDisplay = await dataToDisplay;
 	let blob = new Blob([dataToDisplay], {type: ('text/'+format)});
 	
@@ -908,12 +908,12 @@ async function displayResults(dataToDisplay, format){
 
 	  window.open(url);
 	  URL.revokeObjectURL(url);
-	}
+	/*}
 	catch(error){
 	}
 	finally{
 		JsLoadingOverlay.hide();
-	}
+	}*/
 }
 
 async function downloadResults(dataToDownload, format){
