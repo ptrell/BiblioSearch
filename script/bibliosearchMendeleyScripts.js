@@ -849,7 +849,7 @@ async function obtainSelectedResultsDBLP(results, format){
 					//results.forEach(async function(result){
 					let refData = getJQData(result, "result");
 					//console.log(refData);
-					if(!(result.citationKey==undefined){
+					if(!(result.citationKey==undefined)){
 						//console.log(bibtexParse.toBibtex([refData]));
 						let bibDat = bibtexParse.toBibtex([refData], false)
 						dataToDownload+=bibDat;
