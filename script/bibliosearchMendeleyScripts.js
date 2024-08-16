@@ -863,7 +863,7 @@ async function obtainSelectedResultsDBLP(results, format){
 					}
 				}
 				if(results.length==1){
-					dataToDownload = dataToDownload[references][0];
+					dataToDownload = dataToDownload.references[0];
 				}
 				break;
 			case "bib":
