@@ -882,8 +882,9 @@ async function obtainSelectedResultsDBLP(results, format){
 			case "bib":
 				for (let result of results){
 					let refData = getJQData(result, "result");
-					if (typeof refData === 'string' || refData instanceof String){
-						dataToDownload+=refData;
+					if (!(result.citationKey==undefined)){
+						let dat = bibtexParse.toBibtex([refData], false)
+						dataToDownload+=dat;
 					}
 					else{
 						let bibDat = convertMendeleyJSONtoBibTeX(refData);
