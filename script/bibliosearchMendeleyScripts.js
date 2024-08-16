@@ -486,7 +486,7 @@ function createSelectedItem(result){
 		else{nameValue=nameElement.innerHTML;}
 
 	}
-	else{
+	else if(result.citationKey==undefined){
 		try{
 		nameValue = "[LOADED .BIB ITEM]\n" + result.entryTags.title;
 		urlValue = result.entryTags.url;
@@ -498,6 +498,10 @@ function createSelectedItem(result){
 			nameValue = result.title;
 			if(nameValue == undefined){nameValue="<<No Title Found for This Article>>";}
 		}
+	}
+	else{
+		nameValue = "[LOADED .BIB ITEM]\n" + result.entryTags.title;
+		urlValue = result.entryTags.url;
 	}
 	
 	return(`<li class="selected-item">
@@ -775,7 +779,7 @@ function populateSelectedResults(){
 			if(typeof item === 'string'){
 				item = parser.parseFromString(item, "text/xml");
 			}
-			else{disableReferenceFormats(true, "bib")}
+			else if(!(item.citationKey==null)){disableReferenceFormats(true, "bib")}
 			selectResult(item);
 		})
 	}
