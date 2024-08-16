@@ -913,7 +913,14 @@ async function displayResults(dataToDisplay, format){
 	JsLoadingOverlay.show();
 	//try{
 	dataToDisplay = await dataToDisplay;
-	let blob = new Blob([dataToDisplay], {type: ('text/'+format)});
+	let type = "";
+	if (format == json){
+		type = 'application/'+format;
+	}
+	else{
+		type = 'text/'+format;
+	}
+	let blob = new Blob([dataToDisplay], {type: (type)});
 	
 	  let url = URL.createObjectURL(blob);
 	  //console.log(dataToDisplay);
