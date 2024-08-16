@@ -840,7 +840,7 @@ async function generateCustomXML(element, results){
 }
 
 async function obtainSelectedResultsDBLP(results, format){
-	try{
+	//try{
 		let dataToDownload = "";
 		//console.log(results);
 		switch(format){
@@ -890,11 +890,11 @@ async function obtainSelectedResultsDBLP(results, format){
 			dataToDownload = `<?xml version="1.0"?>` + dataToDownload;
 	}
 	return dataToDownload;
-	}
+	/*}
 	catch(error){
 	}
 	finally{
-	}
+	}*/
 }
 
 async function displayResults(dataToDisplay, format){
