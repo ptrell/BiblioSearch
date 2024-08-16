@@ -187,6 +187,7 @@ function initialize(){
 };
 
 function convertMendeleyJSONtoBibTeX(item){
+	console.log(item=;
 	let bib = {
 		citationKey:"Mendeley:"+item.type+"/"+item.id,
 		entryTags:{
@@ -848,12 +849,12 @@ async function obtainSelectedResultsDBLP(results, format){
 					//results.forEach(async function(result){
 					let refData = getJQData(result, "result");
 					//console.log(refData);
-					try{
+					if(!(result.citationKey==undefined){
 						//console.log(bibtexParse.toBibtex([refData]));
 						let bibDat = bibtexParse.toBibtex([refData], false)
 						dataToDownload+=bibDat;
 					}
-					catch{
+					else{
 						let jsonDat = JSON.stringify(refData);
 						dataToDownload+=jsonDat;
 					}
