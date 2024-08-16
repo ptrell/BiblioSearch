@@ -859,9 +859,7 @@ async function obtainSelectedResultsDBLP(results, format){
 		console.log(results);
 		switch(format){
 			case "json":
-				dataToDownload = {
-					references:[]
-				}
+				dataToDownload = [];
 				for (let result of results){
 					//results.forEach(async function(result){
 					let refData = getJQData(result, "result");
@@ -869,16 +867,17 @@ async function obtainSelectedResultsDBLP(results, format){
 					if(!(result.citationKey==undefined)){
 						//console.log(bibtexParse.toBibtex([refData]));
 						let bibDat = bibtexParse.toBibtex([refData], false)
-						dataToDownload.references.push(bibDat);
+						dataToDownload.push(bibDat);
 					}
 					else{
 						let jsonDat = JSON.stringify(refData);
-						dataToDownload.references.push(jsonDat);
+						dataToDownload.push(jsonDat);
 					}
 				}
-				if(results.length==1){
+				/*if(results.length==1){
 					dataToDownload = dataToDownload.references[0];
-				}
+				}*/
+				dataToDownload = JSON.stringify(dataToDownload);
 				break;
 			case "bib":
 				for (let result of results){
