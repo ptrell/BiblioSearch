@@ -884,7 +884,7 @@ async function obtainSelectedResultsDBLP(results, format){
 					}
 					else{
 						let bibDat = convertMendeleyJSONtoBibTeX(refData);
-						let dat bibtexParse.toBibtex([bibDat], false)
+						let dat = bibtexParse.toBibtex([bibDat], false)
 						dataToDownload+=dat;
 					}
 					break;
