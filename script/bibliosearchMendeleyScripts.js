@@ -850,7 +850,7 @@ async function generateCustomXML(element, results){
 }
 
 async function obtainSelectedResultsDBLP(results, format){
-	//try{
+	try{
 		let dataToDownload = "";
 		//console.log(results);
 		switch(format){
@@ -901,16 +901,16 @@ async function obtainSelectedResultsDBLP(results, format){
 			dataToDownload = `<?xml version="1.0"?>` + dataToDownload;
 	}
 	return dataToDownload;
-	/*}
+	}
 	catch(error){
 	}
 	finally{
-	}*/
+	}
 }
 
 async function displayResults(dataToDisplay, format){
 	JsLoadingOverlay.show();
-	//try{
+	try{
 	dataToDisplay = await dataToDisplay;
 	let blob = new Blob([dataToDisplay], {type: ('text/'+format)});
 	
@@ -919,12 +919,12 @@ async function displayResults(dataToDisplay, format){
 
 	  window.open(url);
 	  URL.revokeObjectURL(url);
-	/*}
+	}
 	catch(error){
 	}
 	finally{
 		JsLoadingOverlay.hide();
-	}*/
+	}
 }
 
 async function downloadResults(dataToDownload, format){
