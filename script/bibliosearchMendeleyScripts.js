@@ -914,7 +914,7 @@ async function displayResults(dataToDisplay, format){
 	//try{
 	dataToDisplay = await dataToDisplay;
 	let type = "";
-	if (format == json){
+	if (format == "json"){
 		type = 'application/'+format;
 	}
 	else{
