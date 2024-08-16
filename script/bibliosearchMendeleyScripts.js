@@ -41,15 +41,27 @@ const idSearchMethods = ["pid/", "db/"];
 
 const mendeleyParams = ["title", "author", "source", "abstract", "min_year", "max_year", "max_year", "open_access"];
 
-const dictTypesDBLPtoBIB = {
-		BooksandTheses:"",
-		JournalArticles:"",
-		ConferenceandWorkshopPapers:"",
-		PartsinBooksorCollections:"",
-		Editorship:"",
-		ReferenceWorks:"",
-		DataandArtifacts:"",
-		InformalandOtherPublications:""
+const dictTypesMendeleytoBIB = {
+		journal:"article",
+		book:"book",
+		generic:"misc",
+		book_section:"inbook",
+		conference_proceedings:"proceedings",
+		working_paper:"techreport",
+		report:"techreport",
+		web_page:"misc",
+		thesis:"masterthesis",
+		magazine:"article",
+		statute:"misc",
+		patent:"misc",
+		newspaper_article:"article",
+		computer_program:"misc",
+		hearing:"misc",
+		television_broadcast:"misc",
+		encyclopedia_article:"article",
+		case:"misc",
+		film:"misc",
+		bill:"misc"
 }
 
 //var resultsPerSearch = 1500;
@@ -174,36 +186,50 @@ function initialize(){
 
 };
 
-async function convertXMLToReference(obj){
-	if(!isDOMElement(obj)){
-		//throw error
-		}
-		let keyList = Array.from(obj.getElementsByTagName("key"));
-		if(keyList.length>0){
-			let obtained = await searchDBLP(generateNewRequest(recPrefixDBLP, keyList[0].innerHTML, "bib")).then((e) => {return e;});
-			//(obtained);
-			/*let refCite = new Cite(obtained);
-			let ref = refCite.format('data', {format: 'object'});
-			return ref;*/
-		}
-		
+function convertMendeleyJSONtoBibTex(item){
+	let bib = {
+		citationKey:"Mendeley:"+item.type+"/"+item.id,
+		entryTags:{
+			author: "",
+			bibsource: "Mendeley",
+			biburl: item.link,
+			title: item.title,
+			year: item.year
+		},
+		entryType:dictTypesMendeleytoBIB[item.type];
+	};
 
-
-		let authorList = Array.from(obj.getElementsByTagName("author"));
-		if(authorList.length>0){
+	switch (bib.entryType){
+		case "article"
+			bib.entryTags[journal]=item.source;
+			break;
 			
-		}
-
+		case "book"
+			bib.entryTags[publisher]=item.source;
+			break;
 		
-		let venueList = Array.from(obj.getElementsByTagName("venue"));
-		if(venueList.length>0){
+		case "inbook"
+			bib.entryTags[publisher]=item.source;
+			break;
 			
-		}
-		
-		let yearList = Array.from(obj.getElementsByTagName("year"));
-		if(yearList.length>0){
+		case "masterthesis"
+			bib.entryTags[school]=item.source;
+			break;
 			
+		case "techreport"
+			bib.entryTags[institution]=item.source;
+			break;		
+	};
+
+	for(let i = 0; i < item.authors.length; i++){
+		bib[author] += item.authors[i][first_name] + " " + item.authors[i][last_name];
+		if(i < item.authors.length-1){
+			bib[author] += "and ";
 		}
+	}
+
+return bib;
+	
 }
 
 function isDOMElement(obj) {
@@ -814,33 +840,48 @@ async function generateCustomXML(element, results){
 
 async function obtainSelectedResultsDBLP(results, format){
 	try{
-	let dataToDownload = "";
-	//console.log(results);
-	for (let result of results){
-	//results.forEach(async function(result){
-		let refData = getJQData(result, "result");
-		//console.log(refData);
-		try{
-			//console.log(bibtexParse.toBibtex([refData]));
-			let bibDat = bibtexParse.toBibtex([refData], false)
-			dataToDownload+=bibDat;
+		let dataToDownload = "";
+		//console.log(results);
+		switch(format){
+			case "json":
+				for (let result of results){
+				//results.forEach(async function(result){
+				let refData = getJQData(result, "result");
+				//console.log(refData);
+				try{
+					//console.log(bibtexParse.toBibtex([refData]));
+					let bibDat = bibtexParse.toBibtex([refData], false)
+					dataToDownload+=bibDat;
+				}
+				catch{
+					let jsonDat = JSON.stringify(refData);
+					dataToDownload+=jsonDat;
+				}
+				break;
+			case "bib":
+				for (let result of results){
+				//results.forEach(async function(result){
+				let refData = getJQData(result, "result");
+				//console.log(refData);
+				if (typeof refData === 'string' || refData instanceof String){
+					dataToDownload+=refData;
+				}
+				else{
+					let bibDat = convertMendeleytoBIB(refData);
+					dataToDownload+=bibDat;
+				}
+				break;
+			}//);
 		}
-		catch{
-			let jsonDat = JSON.stringify(refData);
-			dataToDownload+=jsonDat;
-		}
-	}//);
-	//if the reference data isnt an XML object, the reference was added through a .bib file
 		
-	
-	if(results.length > 1 && (format === "xml" || format == "rdf")){
-		dataToDownload = dataToDownload.split('\n').filter(function(line){ 
-		    return line.indexOf( "<?xml version=" ) == -1;
-		  }).join('\n')
-		if(format === "xml"){
-			dataToDownload = "<dblp>" + dataToDownload.replaceAll("<dblp>", "").replaceAll("</dblp>", "") + "</dblp>";
-		}
-		dataToDownload = `<?xml version="1.0"?>` + dataToDownload;
+		if(results.length > 1 && (format === "xml" || format == "rdf")){
+			dataToDownload = dataToDownload.split('\n').filter(function(line){ 
+			    return line.indexOf( "<?xml version=" ) == -1;
+			  }).join('\n')
+			if(format === "xml"){
+				dataToDownload = "<dblp>" + dataToDownload.replaceAll("<dblp>", "").replaceAll("</dblp>", "") + "</dblp>";
+			}
+			dataToDownload = `<?xml version="1.0"?>` + dataToDownload;
 	}
 	return dataToDownload;
 	}
