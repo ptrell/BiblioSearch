@@ -845,33 +845,32 @@ async function obtainSelectedResultsDBLP(results, format){
 		switch(format){
 			case "json":
 				for (let result of results){
-				//results.forEach(async function(result){
-				let refData = getJQData(result, "result");
-				//console.log(refData);
-				try{
-					//console.log(bibtexParse.toBibtex([refData]));
-					let bibDat = bibtexParse.toBibtex([refData], false)
-					dataToDownload+=bibDat;
-				}
-				catch{
-					let jsonDat = JSON.stringify(refData);
-					dataToDownload+=jsonDat;
+					//results.forEach(async function(result){
+					let refData = getJQData(result, "result");
+					//console.log(refData);
+					try{
+						//console.log(bibtexParse.toBibtex([refData]));
+						let bibDat = bibtexParse.toBibtex([refData], false)
+						dataToDownload+=bibDat;
+					}
+					catch{
+						let jsonDat = JSON.stringify(refData);
+						dataToDownload+=jsonDat;
+					}
 				}
 				break;
 			case "bib":
 				for (let result of results){
-				//results.forEach(async function(result){
-				let refData = getJQData(result, "result");
-				//console.log(refData);
-				if (typeof refData === 'string' || refData instanceof String){
-					dataToDownload+=refData;
+					let refData = getJQData(result, "result");
+					if (typeof refData === 'string' || refData instanceof String){
+						dataToDownload+=refData;
+					}
+					else{
+						let bibDat = convertMendeleyJSONtoBibTeX(refData);
+						dataToDownload+=bibDat;
+					}
+					break;
 				}
-				else{
-					let bibDat = convertMendeleyJSONtoBibTeX(refData);
-					dataToDownload+=bibDat;
-				}
-				break;
-			}//);
 		}
 		
 		if(results.length > 1 && (format === "xml" || format == "rdf")){
