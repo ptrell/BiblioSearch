@@ -231,9 +231,9 @@ function convertMendeleyJSONtoBibTeX(item){
 	console.log(bib);
 
 	for(let i = 0; i < item.authors.length; i++){
-		bib["author"] += item.authors[i]["first_name"] + " " + item.authors[i]["last_name"];
+		bib.entryTags["author"] += item.authors[i]["first_name"] + " " + item.authors[i]["last_name"];
 		if(i < item.authors.length-1){
-			bib["author"] += "and ";
+			bib.entryTags["author"] += "and ";
 		}
 	}
 
