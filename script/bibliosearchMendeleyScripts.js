@@ -186,7 +186,7 @@ function initialize(){
 
 };
 
-function convertMendeleyJSONtoBibTex(item){
+function convertMendeleyJSONtoBibTeX(item){
 	let bib = {
 		citationKey:"Mendeley:"+item.type+"/"+item.id,
 		entryTags:{
@@ -196,7 +196,7 @@ function convertMendeleyJSONtoBibTex(item){
 			title: item.title,
 			year: item.year
 		},
-		entryType:dictTypesMendeleytoBIB[item.type];
+		entryType:dictTypesMendeleytoBIB[item.type]
 	};
 
 	switch (bib.entryType){
@@ -867,7 +867,7 @@ async function obtainSelectedResultsDBLP(results, format){
 					dataToDownload+=refData;
 				}
 				else{
-					let bibDat = convertMendeleytoBIB(refData);
+					let bibDat = convertMendeleyJSONtoBibTeX(refData);
 					dataToDownload+=bibDat;
 				}
 				break;
