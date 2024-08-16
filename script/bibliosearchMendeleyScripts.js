@@ -887,8 +887,9 @@ async function obtainSelectedResultsDBLP(results, format){
 						let dat = bibtexParse.toBibtex([bibDat], false)
 						dataToDownload+=dat;
 					}
-					break;
+					
 				}
+				break;
 		}
 		
 		if(results.length > 1 && (format === "xml" || format == "rdf")){
@@ -998,8 +999,9 @@ function checkForLoadedFormats(){
 	let list = Array.from(document.getElementById("results__selected-list").children);
 	//check all selected references for one in a non-xml format
 	let found = list.some(function(item) {
-		  return (!isXML(getJQData(item, "result")));
-		});
+		let itemData = (getJQData(item, "result"));
+		return (typeof itemData === 'string' || itemData instanceof String);
+	});
 	//if all references are xml, we can reenable the other formats
 	if(!found){
 		disableReferenceFormats(false);
