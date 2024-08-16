@@ -855,11 +855,11 @@ async function obtainSelectedResultsDBLP(results, format){
 					if(!(result.citationKey==undefined)){
 						//console.log(bibtexParse.toBibtex([refData]));
 						let bibDat = bibtexParse.toBibtex([refData], false)
-						dataToDownload[references].push(bibDat);
+						dataToDownload.references.push(bibDat);
 					}
 					else{
 						let jsonDat = JSON.stringify(refData);
-						dataToDownload[references].push(jsonDat);
+						dataToDownload.references.push(jsonDat);
 					}
 				}
 				if(results.length==1){
