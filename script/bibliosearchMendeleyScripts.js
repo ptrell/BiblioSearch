@@ -290,6 +290,7 @@ async function obtainResultsMendeley(uriArgs){
 		    .catalog(usableArgs)
 		    .then(function (data){
 			usableResults = data.items;
+			fetchedResults = data.items;
 			if(usableResults.length==0){
 				createResultErrorMessage("No results were found for the current search terms.")
     				JsLoadingOverlay.hide();
@@ -297,7 +298,7 @@ async function obtainResultsMendeley(uriArgs){
 			}
 			console.log(usableResults);
 			JsLoadingOverlay.hide();
-			populateResultsDBLP(1);
+			populateResultsMendeley(1);
 		    })
 		    .catch((error) => {
 			console.log(error);
@@ -320,7 +321,7 @@ function receiveResultsMendeley(data){
 	console.log(data);
 }
 
-function populateResultsDBLP(pageNumber){
+function populateResultsMendeley(pageNumber){
 	JsLoadingOverlay.show();
 	try{
 		let filteredResults = usableResults;
@@ -674,7 +675,7 @@ function filterResultsDBLP(){
 		let filteredResults = [];
 	
 		if(fetchedResults==null){
-			createResultErrorMessage("No results were found for the specified filters. Please try again with different filtering options or make your DBLP search more specific.");
+			createResultErrorMessage("No results were found for the specified filters. Please try again with different filtering options or make your Mendeley search more specific.");
 			JsLoadingOverlay.hide();
 			return;
 		}
@@ -716,7 +717,7 @@ function filterResultsDBLP(){
 		usableResults = filteredResults;
 		//console.log(usableResults);
 		if(usableResults.length==0){
-			createResultErrorMessage("No results were found for the specified filters. Please try again with different filtering options or make your DBLP search more specific.");
+			createResultErrorMessage("No results were found for the specified filters. Please try again with different filtering options or make your Mendeley search more specific.");
 			JsLoadingOverlay.hide();
 			return;
 		}
@@ -724,7 +725,7 @@ function filterResultsDBLP(){
 	}
 
 JsLoadingOverlay.hide();
-populateResultsDBLP(1);
+populateResultsMendeley(1);
 }
 
 function saveSelectedResults(){
@@ -1059,7 +1060,7 @@ $(document).ready(function(){
 	});
   
   $("#pagination-list").on("click", ".page-link", function(){
-		 populateResultsDBLP(this.value);
+		 populateResultsMendeley(this.value);
 	});
   
   $("#results__result-list").on("click", ".result-item__select-button", function(){
