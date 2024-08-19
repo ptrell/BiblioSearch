@@ -608,7 +608,7 @@ function range(first, last){
 	return res;
 }
 
-function filterResultsDBLP(){
+function filterResultsMendeley(){
 	JsLoadingOverlay.show();
 	let minYearFilter = document.getElementById(minYearFilterId).value;
 	let maxYearFilter = document.getElementById(maxYearFilterId).value;
@@ -758,7 +758,7 @@ async function generateCustomXML(element, results){
 	
 	let uncheckedAttrChecks = Array.from(element.querySelectorAll('.custom-format__attribute-checkbox:not(:checked)'));
 	let discarded = ["month", "number", "booktitle", "crossref", "isbn", "publisher"];
-	let xmlData = await obtainSelectedResultsDBLP(results, "xml");
+	let xmlData = await obtainSelectedResultsMendeley(results, "xml");
 	
 	xmlObject = parser.parseFromString(xmlData, "text/xml");
 	
@@ -784,7 +784,7 @@ async function generateCustomXML(element, results){
 	
 }
 
-async function obtainSelectedResultsDBLP(results, format){
+async function obtainSelectedResultsMendeley(results, format){
 	//try{
 		let dataToDownload = "";
 		console.log(results);
@@ -954,14 +954,8 @@ function checkForLoadedFormats(){
 $(document).ready(function(){
 	
 	initialize();
-	
-  /*$('#'+searchMethodSelectId).on('change', function(){
-	  updateAdvancedOptions();
-	  });*/
   
   $("#"+searchButtonId).on("click", function(){
-	  //obtainResultsDBLP();
-	  //DBLPSearch(generateNewRequest());
 	});
   
 	$('#search-form').submit(function(){
@@ -1003,8 +997,7 @@ $(document).ready(function(){
   });
 	  
   $("#result-filters__filter-button").on("click", function(){
-	  filterResultsDBLP();
-	  //DBLPSearch(generateNewRequest());
+	  filterResultsMendeley();
 	});
   
   $("#pagination-list").on("click", ".page-link", function(){
@@ -1013,23 +1006,22 @@ $(document).ready(function(){
   
   $("#results__result-list").on("click", ".result-item__select-button", function(){
 	  selectResult(getJQData(this.parentElement.parentElement, "result"));
-	  //DBLPSearch(generateNewRequest());
 	});
 
   $("#results__result-list").on("click", ".download-button__download-option", function(){
-	  downloadResults(obtainSelectedResultsDBLP([this.parentElement.parentElement.parentElement.parentElement], this.value), this.value);
+	  downloadResults(obtainSelectedResultsMendeley([this.parentElement.parentElement.parentElement.parentElement], this.value), this.value);
 	});
   
   $("#results__result-list").on("click", ".display-button__display-option", function(){
-	  displayResults(obtainSelectedResultsDBLP([this.parentElement.parentElement.parentElement.parentElement], this.value), this.value);
+	  displayResults(obtainSelectedResultsMendeley([this.parentElement.parentElement.parentElement.parentElement], this.value), this.value);
   });
   
   $(".selected-list__download-option").on("click", function(){
-	  downloadResults(obtainSelectedResultsDBLP(Array.from(document.getElementById("results__selected-list").children), this.value), this.value);
+	  downloadResults(obtainSelectedResultsMendeley(Array.from(document.getElementById("results__selected-list").children), this.value), this.value);
 	});
   
   $(".selected-list__display-option").on("click", function(){
-	  displayResults(obtainSelectedResultsDBLP(Array.from(document.getElementById("results__selected-list").children), this.value), this.value);
+	  displayResults(obtainSelectedResultsMendeley(Array.from(document.getElementById("results__selected-list").children), this.value), this.value);
 	});
   
   $("#selected-list__download-custom-xml").on("click", function(){
