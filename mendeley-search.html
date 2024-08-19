@@ -132,18 +132,6 @@
 			  </button>
 			  <div class="dropdown-menu">
 			    <form class="px-4 py-3">
-			    	<div class="form-group">
-				      <label for="title-filter">Title: </label>
-				      <input type="text" id="title-filter" class="advanced-input">
-				    </div>
-				    <div class="form-group">
-				      <label for="author-filter">Author: </label>
-				      <input type="text" id="author-filter" class="advanced-input">
-				    </div>
-				    <div class="form-group">
-				      <label for="venue-filter">Venue: </label>
-				      <input type="text" id="venue-filter" class="advanced-input">
-				    </div>
 				    <div class="form-group">
 				      <label for="min-year-filter">Min Year: </label>
 				      <input type="number" min="1900" id="min-year-filter">
@@ -156,14 +144,26 @@
 				      <label for="type-filter">Type: </label>
 				      	<select class="form-select" id="type-filter" aria-label="Search Method">
 							<option value="" selected value="">-</option>
-							<option value="Books and Theses">Books and Theses</option>
-							<option value="Journal Articles">Journal Articles</option>
-							<option value="Conference and Workshop Papers">Conference and Workshop Papers</option>
-							<option value="Parts in Books or Collections">Parts in Books or Collections</option>
-							<option value="Editorship">Editorship</option>
-							<option value="Reference Works">Reference Works</option>
-							<option value="Data and Artifacts">Data and Artifacts</option>
-							<option value="Informal and Other Publications">Informal and Other Publications</option>
+							<option value="journal">Journal</option>
+							<option value="book">Book</option>
+							<option value="generic">Generic</option>
+							<option value="book_section">Book Section</option>
+							<option value="conference_proceedings">Conference Proceedings</option>
+							<option value="working_paper">Working Paper</option>
+							<option value="report">Report</option>
+							<option value="web_page">Web Page</option>
+							<option value="thesis">Thesis</option>
+							<option value="magazine">Magazine</option>
+							<option value="statute">Statute</option>
+							<option value="patent">Patent</option>
+							<option value="newspaper_article">Newspaper Article</option>
+							<option value="computer_program">Computer Program</option>
+							<option value="hearing">Hearing</option>
+							<option value="television_broadcast">Television Broadcast</option>
+							<option value="encyclopedia_article">Encyclopedia Article</option>
+							<option value="case">Case</option>
+							<option value="film">Film</option>
+							<option value="bill">Bill</option>
 						</select>
 				    </div>
 				    <div class="form-group">
