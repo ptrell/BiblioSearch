@@ -327,9 +327,11 @@ function createResultItem(result){
 	
 	let sourceValue = result.source;
 	if(sourceValue == undefined){sourceValue="";}
+	else{sourceValue = "- "+ sourceValue}
 	
 	let typeValue = result.type;
 	if(typeValue == undefined){typeValue="";}
+	else{typeValue = "- "+ typeValue}
 
 	let urlValue = result.link;
 	if(urlValue == undefined){urlValue="";}
