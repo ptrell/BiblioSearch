@@ -877,7 +877,7 @@ async function obtainSelectedResultsDBLP(results, format){
 				/*if(results.length==1){
 					dataToDownload = dataToDownload.references[0];
 				}*/
-				dataToDownload = JSON.stringify(dataToDownload);
+				dataToDownload = JSON.parse(JSON.stringify(dataToDownload));
 				break;
 			case "bib":
 				for (let result of results){
@@ -917,7 +917,7 @@ async function displayResults(dataToDisplay, format){
 	JsLoadingOverlay.show();
 	//try{
 	dataToDisplay = await dataToDisplay;
-	let type = "";
+	let type;
 	if (format == "json"){
 		type = 'application/'+format;
 	}
