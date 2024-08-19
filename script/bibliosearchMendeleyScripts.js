@@ -883,6 +883,8 @@ async function obtainSelectedResultsDBLP(results, format){
 				for (let result of results){
 					let refData = getJQData(result, "result");
 					if (!(result.citationKey==undefined)){
+						console.log("undefined citationkey");
+						console.log(result);
 						let dat = bibtexParse.toBibtex([refData], false)
 						dataToDownload+=dat;
 					}
