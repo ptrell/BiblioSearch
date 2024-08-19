@@ -289,23 +289,27 @@ async function obtainResultsMendeley(uriArgs){
 		mendeleyAPI.search
 		    .catalog(usableArgs)
 		    .then(function (data){
-			console.log(data);
 			usableResults = data.items;
+			if(usableResults.length==0){
+				createResultErrorMessage("No results were found for the current search terms.")
+    				JsLoadingOverlay.hide();
+				return;
+			}
 			console.log(usableResults);
 			JsLoadingOverlay.hide();
 			populateResultsDBLP(1);
-		    });
-		    //.done(receiveResultsMendeley)
-		    //.fail(errorHandler);
-		
-		/*currentSearchMethod = searchMethod;
-		usableResults = fetchedResults;
-		JsLoadingOverlay.hide();
-		populateResultsDBLP(1);*/
+		    })
+		    .catch((error) => {
+			console.log(error);
+			usableResults=[];
+			createResultErrorMessage("No results were found for the current search terms.")
+    			JsLoadingOverlay.hide();
+			return;
+		     });
 /*	}
     catch(error){
     	//console.log(error);
-    	currentSearchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
+    	//currentSearchMethod = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
     	usableResults=[];
     	createResultErrorMessage("No results were found for the current search terms.")
     	JsLoadingOverlay.hide();
@@ -656,14 +660,11 @@ function range(first, last){
 
 function filterResultsDBLP(){
 	JsLoadingOverlay.show();
-	let titleFilter = document.getElementById(titleFilterId).value;
-	let authorFilter = document.getElementById(authorFilterId).value;
-	let sourceFilter = document.getElementById(sourceFilterId).value;
 	let minYearFilter = document.getElementById(minYearFilterId).value;
 	let maxYearFilter = document.getElementById(maxYearFilterId).value;
 	let pubTypeFilter = document.getElementById(pubTypeFilterId).value;
 	
-	if(titleFilter == authorFilter && authorFilter==sourceFilter && sourceFilter==minYearFilter && minYearFilter==maxYearFilter && maxYearFilter==pubTypeFilter && pubTypeFilter==""){
+	if(minYearFilter==maxYearFilter && maxYearFilter==pubTypeFilter && pubTypeFilter==""){
 		
 		usableResults=fetchedResults;
 		
@@ -680,55 +681,29 @@ function filterResultsDBLP(){
 		fetchedResults.forEach(element => {
 			let validSoFar = true;
 			
-			if(titleFilter!=""){
-				let titleList = Array.from(element.getElementsByTagName("title"));
-				if(titleList.length>0){
-					
-					validSoFar = titleList.some(titl => titl.innerHTML.toLowerCase().includes(titleFilter.toLowerCase()));
-				}
-				else{validSoFar = false;}
-			}
-			
-			if(authorFilter!=""){
-				let authorList = Array.from(element.getElementsByTagName("author"));
-				if(authorList.length>0){
-					
-					validSoFar = authorList.some(person => person.innerHTML.toLowerCase().includes(authorFilter.toLowerCase()));
-				}
-				else{validSoFar = false;}
-			}
-			
-			if(sourceFilter!="" && validSoFar){
-				let sourceList = Array.from(element.getElementsByTagName("source"));
-				if(sourceList.length>0){
-					validSoFar = sourceList.some(ven => ven.innerHTML.toLowerCase().includes(sourceFilter.toLowerCase()));
-				}
-				else{validSoFar = false;}
-			}
-			
 			if(minYearFilter!="" && validSoFar){
-				let yearList = Array.from(element.getElementsByTagName("year"));
-				if(yearList.length>0){
-				validSoFar = yearList.some(yea => yea.innerHTML>=minYearFilter);
+				let elemMinYear = element.year;
+				if(!(elemMinYear==undefined)){
+				validSoFar = (elemMinYear>=minYearFilter);
 				}
 				else{validSoFar = false;}
 			}
 			
 			if(maxYearFilter!="" && validSoFar){
-				let yearList = Array.from(element.getElementsByTagName("year"));
-				if(yearList.length>0){
-					validSoFar = yearList.some(yea => yea.innerHTML<=maxYearFilter);
+				let elemMaxYear = element.year;
+				if(!(elemMaxYear==undefined)){
+					validSoFar = (elemMaxYear<=maxYearFilter);
 				}
 				else{validSoFar = false;}
 			}
 			
 			if(pubTypeFilter!="" && validSoFar){
 				//console.log(pubTypeFilter);
-				let typeList = Array.from(element.getElementsByTagName("type"));
-				if(typeList.length>0){
-					validSoFar = typeList.some(typ => typ.innerHTML.toLowerCase()==pubTypeFilter.toLowerCase());
+				let elemType = element.type;
+				if(!(elemType==undefined)){
+					validSoFar = (elemType.toLowerCase()==pubTypeFilter.toLowerCase());
 				}
-				else{validSoFar = 0;}
+				else{validSoFar = false;}
 			}
 			
 			if(validSoFar){
