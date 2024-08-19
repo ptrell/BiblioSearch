@@ -864,7 +864,7 @@ async function obtainSelectedResultsDBLP(results, format){
 					//results.forEach(async function(result){
 					let refData = getJQData(result, "result");
 					//console.log(refData);
-					if(!(result.citationKey==undefined)){
+					if(!(refData.citationKey==undefined)){
 						//console.log(bibtexParse.toBibtex([refData]));
 						let bibDat = bibtexParse.toBibtex([refData], false)
 						dataToDownload.push(bibDat);
@@ -882,14 +882,12 @@ async function obtainSelectedResultsDBLP(results, format){
 			case "bib":
 				for (let result of results){
 					let refData = getJQData(result, "result");
-					if (!(result.citationKey==undefined)){
+					if (!(refData.citationKey==undefined)){
 						
 						let dat = bibtexParse.toBibtex([refData], false)
 						dataToDownload+=dat;
 					}
 					else{
-						console.log("undefined citationkey");
-						console.log(result);
 						let bibDat = convertMendeleyJSONtoBibTeX(refData);
 						let dat = bibtexParse.toBibtex([bibDat], false)
 						dataToDownload+=dat;
