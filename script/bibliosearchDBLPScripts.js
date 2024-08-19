@@ -661,72 +661,77 @@ function createGenericResultItem(result){
 }
 
 function createSelectedItem(result){
+
+	try{
 	
-	let urlValue;
-	let nameValue;
-	
-	//console.log(isXML(result));
-	//console.log(result);
-	
-	if(isXML(result)){
-	
-		let urlElement;
-		let urlElementNames = ['ee', 'url'];
+		let urlValue;
+		let nameValue;
 		
-		//for each possible url element, until urlElement isnt undefined
-		for(let i = 0; urlElement==undefined && i<urlElementNames.length; i++){
-			urlElement = result.getElementsByTagName(urlElementNames[i])[0];
+		//console.log(isXML(result));
+		//console.log(result);
+		
+		if(isXML(result)){
+		
+			let urlElement;
+			let urlElementNames = ['ee', 'url'];
+			
+			//for each possible url element, until urlElement isnt undefined
+			for(let i = 0; urlElement==undefined && i<urlElementNames.length; i++){
+				urlElement = result.getElementsByTagName(urlElementNames[i])[0];
+			}
+			//if urlElement remains undefined, no elements were found. Make urlValue an empty string
+			if(urlElement == undefined){urlValue="";}
+			//otherwise, make it urlElement's innerHTML
+			else{urlValue=urlElement.innerHTML;}
+			
+			let nameElement = result.getElementsByTagName("title")[0];
+			if(nameElement == undefined){nameValue="<<No Name Found for This Article>>";}
+			else{nameValue=nameElement.innerHTML;}
+	
 		}
-		//if urlElement remains undefined, no elements were found. Make urlValue an empty string
-		if(urlElement == undefined){urlValue="";}
-		//otherwise, make it urlElement's innerHTML
-		else{urlValue=urlElement.innerHTML;}
+		else{
+			nameValue = "[LOADED .BIB ITEM]\n" + result.entryTags.title;
+			urlValue = result.entryTags.url;
+		}
 		
-		let nameElement = result.getElementsByTagName("title")[0];
-		if(nameElement == undefined){nameValue="<<No Name Found for This Article>>";}
-		else{nameValue=nameElement.innerHTML;}
-
+		return(`<li class="selected-item">
+			<span>
+				<button type="button" class="selected-item__remove-button icon-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+					  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+					  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+					</svg>
+				</button>
+			</span>
+		
+			<span class="result-item__title-span">
+				<a class="result-item__title" href="`
+				+ urlValue +
+				`" target="_blank">`
+				+ nameValue +
+				`</a>
+			</span>
+		
+			<span class="selected-item__move-span">
+				
+				<button type="button" class="selected-item__up-button icon-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
+					  <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
+					</svg>
+				</button>
+				
+				<button type="button" class="selected-item__down-button icon-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+					  <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
+					</svg>
+				</button>
+				
+			</span>
+	
+		</li>`)
 	}
-	else{
-		nameValue = "[LOADED .BIB ITEM]\n" + result.entryTags.title;
-		urlValue = result.entryTags.url;
+	catch(e){
 	}
-	
-	return(`<li class="selected-item">
-		<span>
-			<button type="button" class="selected-item__remove-button icon-button">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
-				  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-				  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
-				</svg>
-			</button>
-		</span>
-	
-		<span class="result-item__title-span">
-			<a class="result-item__title" href="`
-			+ urlValue +
-			`" target="_blank">`
-			+ nameValue +
-			`</a>
-		</span>
-	
-		<span class="selected-item__move-span">
-			
-			<button type="button" class="selected-item__up-button icon-button">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-short" viewBox="0 0 16 16">
-				  <path fill-rule="evenodd" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5"/>
-				</svg>
-			</button>
-			
-			<button type="button" class="selected-item__down-button icon-button">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
-				  <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4"/>
-				</svg>
-			</button>
-			
-		</span>
-
-	</li>`)
 }
 
 function populatePaginationBar(currPage, maxPage){
@@ -953,23 +958,29 @@ function saveSelectedResults(){
 }
 
 function populateSelectedResults(){
-	let parser = new DOMParser();
-	//retrieve the locally stored user selection data
-	//for every item in it
-		//make a new <li> entry in the selected results list
-		//give the <li> element all associated data through jquery
-	let selectionData = JSON.parse(sessionStorage.getItem("BiblioSearch-User_Selection-DBLP"));
-	if(Array.isArray(selectionData)){
-		if(selectionData.length>0){
-			document.getElementById("results-elements").style.display="block";
-		}
-		selectionData.forEach((item) => {
-			if(typeof item === 'string'){
-				item = parser.parseFromString(item, "text/xml");
+	try{
+		let parser = new DOMParser();
+		//retrieve the locally stored user selection data
+		//for every item in it
+			//make a new <li> entry in the selected results list
+			//give the <li> element all associated data through jquery
+		let selectionData = JSON.parse(sessionStorage.getItem("BiblioSearch-User_Selection-DBLP"));
+		if(Array.isArray(selectionData)){
+			if(selectionData.length>0){
+				document.getElementById("results-elements").style.display="block";
 			}
-			else{disableReferenceFormats(true, "bib")}
-			selectResult(item);
-		})
+			selectionData.forEach((item) => {
+				if(typeof item === 'string'){
+					item = parser.parseFromString(item, "text/xml");
+				}
+				else{disableReferenceFormats(true, "bib")}
+				selectResult(item);
+			})
+		}
+	}
+	catch(e){
+		sessionStorage.removeItem("BiblioSearch-User_Selection-DBLP");
+		alert("An error ocurred while loading your previously selected DBLP result items.\n");
 	}
 }
 
