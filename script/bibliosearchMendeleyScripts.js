@@ -1,12 +1,5 @@
 //const { MendeleySDK } = require("./mendeley-sdk/standalone.min");
 
-const endpointDBLP = "https://dblp.org/";
-const recPrefixDBLP = "rec/";
-const defaultAPIFormatDBLP = "xml";
-const defaultFormatDBLP = "xml";
-//const apiDefaultMaxHitsDBLP = 30;
-//const apiMaxHitsLargeDBLP = 500;
-
 const searchFormId = "search-form";
 const searchButtonId = "search-bar__search-button";
 const advancedSearchOptionListId = "advanced-search__list";
@@ -33,12 +26,6 @@ const resultsPerPageId = "results-per-page";
 
 const paginationListId = "pagination-list";
 
-const toggleableSearchOptions = [["adv-author", "adv-venue"], ["adv-author", "adv-venue"], ["adv-author", "adv-venue"], ["adv-venue"], ["adv-author"]];
-
-const publicationSearchMethods = ["search/publ/api", "pid/", "db/"];
-
-const idSearchMethods = ["pid/", "db/"];
-
 const mendeleyParams = ["title", "author", "source", "abstract", "min_year", "max_year", "max_year", "open_access"];
 
 const dictTypesMendeleytoBIB = {
@@ -64,22 +51,15 @@ const dictTypesMendeleytoBIB = {
 		bill:"misc"
 }
 
-//var resultsPerSearch = 1500;
-//var resultsPerPage = 50;
-
 var previousMethodIndex;
 var previousSearchURL;
 var currentSearchMethod;
 var fetchedResults;
 var usableResults;
 
-//var mendeleySDK = require('@mendeley/api');
 let mendeleyAPI;
 
 function initialize(){
-	/*previousMethodIndex = document.getElementById(searchMethodSelectId).selectedOptions[0].index;
-	document.getElementById(maxYearInputId).setAttribute("max", new Date().getFullYear());
-	document.getElementById(minYearInputId).setAttribute("max", new Date().getFullYear());*/
 
 	mendeleyAPI = new MendeleySDK({
 	  authFlow: MendeleySDK.Auth.implicitGrantFlow({
@@ -93,15 +73,6 @@ function initialize(){
 		populateSelectedResults();
 		return;
 	}
-	
-	/*let searchParams = [];
-	
-	mendeleyParams.forEach((param) => {
-		let paramValue = searchParams.get(param);
-		if(paramValue != "" && paramValue != undefined){
-			searchParams.push(paramValue);
-		}
-	});*/
 
 	searchQuery = searchParams.get("query");
 	searchTitle = searchParams.get("title");
@@ -139,7 +110,7 @@ function initialize(){
 		return;
 	}
 	
-	//sessionStorage.setItem("BiblioSearch-User_Selection-DBLP", JSON.stringify(selectionData));
+	//sessionStorage.setItem("BiblioSearch-User_Selection-Mendeley", JSON.stringify(selectionData));
 	
 	else{
 		populateSelectedResults();
@@ -147,6 +118,7 @@ function initialize(){
 		document.getElementById(searchBarTextInputId).value=searchQuery;
 		document.getElementById(titleInputId).value=searchTitle;
 		document.getElementById(abstractInputId).value=searchAbstract;
+		document.getElementById(authorInputId).value=searchAuthor;
 		document.getElementById(sourceInputId).value=searchSource;
 		document.getElementById(minYearInputId).value=searchMinYear;
 		document.getElementById(maxYearInputId).value=searchMaxYear;
@@ -156,34 +128,6 @@ function initialize(){
 		obtainResultsMendeley(mendeleyUriArgs);
 	}
 	
-	//populatePaginationBar(1,1);
-	
-	
-	
-	/*let bib = `@phdthesis{DBLP:phd/tr/Namli11,
-		  author       = {Tuncay Namli and Anon Postus},
-		  title        = {TestBATN-a scenario based test platform for conformance and interoperability
-		                  testing (TestBATN-senaryo tabanl{\i} uygunluk ve birlikte i{\c{s}}lerlik
-		                  test platformu)},
-		  school       = {Middle East Technical University, Turkey},
-		  year         = {2011},
-		  url          = {https://tez.yok.gov.tr/UlusalTezMerkezi/tezDetay.jsp?id=eKo3LK\_LVdT64qw6R2VvKA\&no=2245Ha8d4QDPPjobE2GTeg},
-		  timestamp    = {Sun, 03 Dec 2023 12:24:25 +0100},
-		  biburl       = {https://dblp.org/rec/phd/tr/Namli11.bib},
-		  bibsource    = {dblp computer science bibliography, https://dblp.org}
-		}`/*
-		/*
-	let cit = new Cite(bib);
-	let ref = cit.format('data', {format: 'object'});
-	(ref);
-	let citcit = new Cite(ref);
-	let refref = cit.format('data', {format: 'bibtex'});
-	(refref);
-	alert(refref);*/
-	/*let cit = bibtexParse.toJSON(bib);
-	(cit);*/
-	
-
 };
 
 function convertMendeleyJSONtoBibTeX(item){
@@ -737,7 +681,7 @@ function saveSelectedResults(){
 		}
 		return itemData;
 	});
-	sessionStorage.setItem("BiblioSearch-User_Selection-DBLP", JSON.stringify(selectionData));
+	sessionStorage.setItem("BiblioSearch-User_Selection-Mendeley", JSON.stringify(selectionData));
 }
 
 function populateSelectedResults(){
@@ -746,7 +690,7 @@ function populateSelectedResults(){
 	//for every item in it
 		//make a new <li> entry in the selected results list
 		//give the <li> element all associated data through jquery
-	let selectionData = JSON.parse(sessionStorage.getItem("BiblioSearch-User_Selection-DBLP"));
+	let selectionData = JSON.parse(sessionStorage.getItem("BiblioSearch-User_Selection-Mendeley"));
 	if(Array.isArray(selectionData)){
 		if(selectionData.length>0){
 			document.getElementById("results-elements").style.display="block";
@@ -1011,13 +955,6 @@ $(document).ready(function(){
   
 	$('#search-form').submit(function(){
 		JsLoadingOverlay.show();
-		let term = document.getElementById(searchBarTextInputId).value
-		let method = document.getElementById(searchMethodSelectId).selectedOptions[0].value;
-		if(term != "" && idSearchMethods.includes(method) && !(/..*[/].*./).test(term.replace(/\s/g,''))){
-			alert("The search term does not resemble a publisher ID. Please, double check the ID you're looking for or use a different search method.");
-			JsLoadingOverlay.hide();
-			return false;
-		}
 	});
 
 	$("#results__result-list").on("click", ".result-item__pub-title", function(e) {
