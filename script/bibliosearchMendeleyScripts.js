@@ -289,6 +289,7 @@ function populateResultsMendeley(pageNumber){
 			//attaching the result object data to the list item
 			attachJQData(resultsOnScreen[i%resultsOnScreen.length], "result", filteredResults[i]);
 		}
+		document.getElementById("results__result-column").innerHTML = "Results (" + filteredResults.length + ")";
 	}
 	catch(error){
 		
