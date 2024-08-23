@@ -436,6 +436,10 @@ text-align: center;
 	display: inline-block;
 }
 
+.engine-label{
+	font-family: "Marcellus SC", serif;
+}
+
 #search-engines_div{
 	height:100%;
 	text-align:center;
