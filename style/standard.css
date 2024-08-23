@@ -422,3 +422,25 @@ text-align: center;
 #file-upload-input {
 	display: none;
 }
+
+.engine-div{
+	height: 100%;
+	width: 49%;
+	display: inline-block;
+	padding: 20px;
+}
+
+.engine-button{
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+}
+
+#search-engines_div{
+	height:100%;
+	text-align:center;
+}
+
+#content{
+	height:300px;
+}
