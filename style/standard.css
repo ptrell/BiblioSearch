@@ -439,6 +439,8 @@ text-align: center;
 
 .engine-button:hover { 
   transform: scale(1.1); 
+    z-index: 101;     /* put the header in fronnt of the left menu bar */
+    box-shadow: 0 0 10px rgba(128,128,128,.8); /*shadow */
 } 
 
 .engine-label{
