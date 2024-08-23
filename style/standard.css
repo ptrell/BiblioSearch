@@ -434,6 +434,7 @@ text-align: center;
 	height: 100%;
 	width: 100%;
 	display: inline-block;
+	transition: all 0.3s ease; 
 }
 
 .engine-button:hover { 
