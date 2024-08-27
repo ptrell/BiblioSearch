@@ -204,6 +204,16 @@ footer {
 	text-align: center;
 }
 
+.selected-list__custom-option{
+	margin-left: 0px;
+	padding-left: 0px;
+}
+
+.selected-list__custom-button{
+	padding-left: 0px;
+	margin-left: 15px;
+}
+
 #header-elements{
 	margin: 0;
 	position: relative;
