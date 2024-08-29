@@ -1026,7 +1026,7 @@ async function generateCustomXML(element, results){
 	let parser = new DOMParser();
 	
 	let uncheckedAttrChecks = Array.from(element.querySelectorAll('.custom-format__attribute-checkbox:not(:checked)'));
-	let discarded = ["month", "number", "booktitle", "crossref", "isbn", "publisher"];
+	let discarded = ["month", "number", "booktitle", "crossref", "isbn", "publisher", "note"];
 	let xmlData = await obtainSelectedResultsDBLP(results, "xml");
 	
 	xmlObject = parser.parseFromString(xmlData, "text/xml");
