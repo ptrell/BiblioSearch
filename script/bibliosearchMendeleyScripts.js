@@ -144,8 +144,6 @@ function convertMendeleyJSONtoBibTeX(item){
 		entryType:dictTypesMendeleytoBIB[item.type]
 	};
 
-	console.log(bib);
-
 	switch (bib.entryType){
 		case "article":
 			bib.entryTags["journal"]=item.source;
@@ -171,8 +169,6 @@ function convertMendeleyJSONtoBibTeX(item){
 			bib.entryTags["source"]=item.source;
 			break;	
 	};
-
-	console.log(bib);
 
 	for(let i = 0; i < item.authors.length; i++){
 		bib.entryTags["author"] += item.authors[i]["first_name"] + " " + item.authors[i]["last_name"];
