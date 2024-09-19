@@ -942,7 +942,7 @@ function checkForLoadedFormats(){
 	//check all selected references for one in a non-xml format
 	let found = list.some(function(item) {
 		let itemData = (getJQData(item, "result"));
-		return (result.citationKey!=undefined);
+		return (itemData.citationKey!=undefined);
 		//return (typeof itemData === 'string' || itemData instanceof String);
 	});
 	//if all references are xml, we can reenable the other formats
